@@ -15,6 +15,7 @@ class Documento extends Model
         'numero',
         'doe',
         'data',
+        'descricao',
         'data_criacao',
         'data_atualizacao',
         'id_usuario',

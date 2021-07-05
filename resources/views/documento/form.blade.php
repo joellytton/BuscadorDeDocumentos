@@ -6,6 +6,9 @@
             </label>
             <select name="id_tipo_documento" class="form-control">
                 <option value="">Selecione uma opção</option>
+                @foreach ($tipoDocumentos as $documento)
+                    <option value="{{$documento->id}}">{{$documento->nome}}</option>
+                @endforeach
             </select>
 
             @if ($errors->has('id_tipo_documento'))
@@ -16,11 +19,15 @@
 
     <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
         <div class="wrap">
-            <label for="funcao" class="form-control-label">Emitente:
+            <label for="id_emitente" class="form-control-label">Emitente:
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
-            <select name="id_tipo_documento" class="form-control">
+            <select name="id_emitente" class="form-control">
                 <option value="">Selecione uma opção</option>
+                @foreach ($emitentes as $emitente)
+                <option value="{{$emitente->id}}">{{$emitente->nome}}</option>
+                    
+                @endforeach
             </select>
             @if ($errors->has('cd_funcao'))
             <h6 class="heading text-danger">{{$errors->first('cd_funcao')}}</h6>
@@ -70,7 +77,7 @@
 <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
         <div class="wrap">
-            <textarea class="form-control" name="" id="" cols="30" rows="5"></textarea>
+            <textarea class="form-control" name="descricao" cols="30" rows="5"></textarea>
         </div>
     </div>
 </div>
