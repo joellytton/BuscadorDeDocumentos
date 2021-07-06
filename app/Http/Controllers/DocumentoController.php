@@ -14,9 +14,22 @@ use Symfony\Component\HttpFoundation\Response;
 class DocumentoController extends Controller
 {
 
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('documento.index');
+        $keyword = $request->get('search');
+        $perPage = 10;
+
+        $documentos = Documento::with(['emitente', 'tipoDocumento', 'usuario'])->where('status', 'Ativo')
+            ->latest()
+            ->paginate($perPage);
+
+        if (!empty($keyword)) {
+            $documentos = Documento::where('numero', 'LIKE', "%$keyword%")
+                ->orWhere('descricao', 'LIKE', "%$keyword%")
+                ->orWhere('doe', 'LIKE', "%$keyword%")
+                ->latest()->paginate($perPage);
+        }
+        return view('documento.index', compact('documentos'));
     }
 
     public function create(): View
@@ -31,7 +44,6 @@ class DocumentoController extends Controller
         DB::beginTransaction();
         $requestData = $request->all();
         $requestData['id_usuario'] = Auth::id();
-
         if (!Documento::create($requestData)) {
             DB::rollBack();
             return redirect()->route('documento.index')->with('error', "Falha ao cadastrar um documento.");
@@ -41,23 +53,42 @@ class DocumentoController extends Controller
         return redirect()->route('documento.index')->with('success', "Documento cadastrada com sucesso.");
     }
 
-    public function show($id)
+    public function edit($id): View
     {
-        dd($id);
-    }
-
-    public function edit($id)
-    {
-        dd($id);
+        $documentos = Documento::findOrFail($id);
+        $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
+        $emitentes = Emitente::where('status', 'Ativo')->get();
+        return view('documento.edit', compact('documentos', 'tipoDocumentos', 'emitentes'));
     }
 
     public function update(Request $request, $id)
     {
-        dd($request, $id);
+        $documento = Documento::findOrFail($id);
+        DB::beginTransaction();
+
+        $requestData = $request->all();
+        $requestData['id_usuario'] = Auth::id();
+
+        if (!$documento->update($requestData)) {
+            DB::rollBack();
+            return redirect()->route('documento.index')->with('error', "Falha ao alterar um documento.");
+        }
+
+        DB::commit();
+        return redirect()->route('documento.index')->with('success', "Documento alterado com sucesso.");
     }
 
     public function destroy($id)
     {
-        dd($id);
+        $documento = Documento::findOrFail($id);
+        DB::beginTransaction();
+
+        if (!$documento->update(['status' => 'Inativo'])) {
+            DB::rollBack();
+            return redirect()->route('documento.index')->with('error', "Falha ao deletar um documento.");
+        }
+
+        DB::commit();
+        return redirect()->route('documento.index')->with('success', "Documento deletado com sucesso.");
     }
 }

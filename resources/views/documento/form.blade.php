@@ -5,9 +5,12 @@
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
             <select name="id_tipo_documento" class="form-control">
-                <option value="">Selecione uma opção</option>
+                <option value="" selected>Selecione uma opção</option>
                 @foreach ($tipoDocumentos as $documento)
-                    <option value="{{$documento->id}}">{{$documento->nome}}</option>
+                <option value="{{$documento->id}}"
+                    {{(empty(old('id_tipo_documento')) ? @$documentos->id_tipo_documento : old('id_tipo_documento')) == $documento->id ? 'selected' : ''}}>
+                    {{$documento->nome}}
+                </option>
                 @endforeach
             </select>
 
@@ -23,10 +26,13 @@
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
             <select name="id_emitente" class="form-control">
-                <option value="">Selecione uma opção</option>
+                <option value="" selected>Selecione uma opção</option>
                 @foreach ($emitentes as $emitente)
-                <option value="{{$emitente->id}}">{{$emitente->nome}}</option>
-                    
+                <option value="{{$emitente->id}}"
+                    {{(empty(old('id_emitente')) ? @$documentos->id_emitente : old('id_emitente')) == $emitente->id ? 'selected' : ''}}>
+                    {{$emitente->nome}}
+                </option>
+
                 @endforeach
             </select>
             @if ($errors->has('cd_funcao'))
@@ -42,7 +48,8 @@
             <label for="numero" class="form-control-label">Número:
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
-            <input type="number" class="form-control" name="numero">
+            <input type="number" class="form-control" name="numero"
+                value="{{empty(old('numero')) ? @$documentos->numero : old('numero')}}" min="1">
             @if ($errors->has('numero'))
             <h6 class="heading text-danger">{{$errors->first('numero')}}</h6>
             @endif
@@ -54,7 +61,8 @@
             <label for="doe" class="form-control-label">DOE:
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
-            <input type="text" class="form-control" name="doe">
+            <input type="text" class="form-control" name="doe"
+                value="{{empty(old('doe')) ? @$documentos->doe : old('doe')}}">
             @if ($errors->has('doe'))
             <h6 class="heading text-danger">{{$errors->first('doe')}}</h6>
             @endif
@@ -66,7 +74,8 @@
             <label for="data" class="form-control-label">Data:
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
-            <input type="date" class="form-control" name="data">
+            <input type="date" class="form-control" name="data"
+                value="{{(empty(old('data')) ? (!empty($documentos) ? @$documentos->data : '') : old('data')) }}">
             @if ($errors->has('data'))
             <h6 class="heading text-danger">{{$errors->first('data')}}</h6>
             @endif
@@ -77,7 +86,8 @@
 <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
         <div class="wrap">
-            <textarea class="form-control" name="descricao" cols="30" rows="5"></textarea>
+            <textarea class="form-control" name="descricao" cols="30"
+                rows="5">{{(empty(old('descricao')) ? @$documentos->descricao : old('descricao')) }}</textarea>
         </div>
     </div>
 </div>
