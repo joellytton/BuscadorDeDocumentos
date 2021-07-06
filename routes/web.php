@@ -15,10 +15,6 @@ use App\Http\Controllers\DocumentoController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::resource('/documento', DocumentoController::class);
