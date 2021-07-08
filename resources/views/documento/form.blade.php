@@ -43,7 +43,7 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-12 col-md-4 col-lg-4 mt-4">
+    <div class="col-sm-12 col-md-3 col-lg-3 mt-4">
         <div class="wrap">
             <label for="numero" class="form-control-label">Número:
                 <span class="text-danger" style="font-size: 14px;">*</span>
@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <div class="col-sm-12 col-md-4 col-lg-4 mt-4">
+    <div class="col-sm-12 col-md-3 col-lg-3 mt-4">
         <div class="wrap">
             <label for="doe" class="form-control-label">DOE:
                 <span class="text-danger" style="font-size: 14px;">*</span>
@@ -69,7 +69,7 @@
         </div>
     </div>
 
-    <div class="col-sm-12 col-md-4 col-lg-4 mt-4">
+    <div class="col-sm-12 col-md-3 col-lg-3 mt-4">
         <div class="wrap">
             <label for="data" class="form-control-label">Data:
                 <span class="text-danger" style="font-size: 14px;">*</span>
@@ -78,6 +78,19 @@
                 value="{{(empty(old('data')) ? (!empty($documentos) ? @$documentos->data : '') : old('data')) }}">
             @if ($errors->has('data'))
             <h6 class="heading text-danger">{{$errors->first('data')}}</h6>
+            @endif
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-3 col-lg-3 mt-4">
+        <div class="wrap">
+            <label for="link" class="form-control-label">Link:
+                <span class="text-danger" style="font-size: 14px;">*</span>
+            </label>
+            <input type="text" class="form-control" name="link"
+                value="{{(empty(old('link')) ? @$documentos->links->link  : old('link')) }}">
+            @if ($errors->has('link'))
+            <h6 class="heading text-danger">{{$errors->first('link')}}</h6>
             @endif
         </div>
     </div>

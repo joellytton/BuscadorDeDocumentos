@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Emitente;
 use App\Models\Documento;
+use App\Models\DocumentoLink;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\TipoDocumento;
@@ -16,20 +17,15 @@ class DocumentoController extends Controller
 
     public function index(Request $request): View
     {
-        $keyword = $request->get('search');
-        $perPage = 10;
-
-        $documentos = Documento::with(['emitente', 'tipoDocumento', 'usuario'])->where('status', 'Ativo')
-            ->latest()
-            ->paginate($perPage);
-
-        if (!empty($keyword)) {
-            $documentos = Documento::where('numero', 'LIKE', "%$keyword%")
-                ->orWhere('descricao', 'LIKE', "%$keyword%")
-                ->orWhere('doe', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
-        }
-        return view('documento.index', compact('documentos'));
+        $tiposDocumento = TipoDocumento::where('status', 'Ativo')->get();
+        $emitentes = Emitente::where('status', 'Ativo')->get();
+        $documentos = Documento::buscarDocumento(
+            empty($request->id_tipo_documento) ? 0 : $request->id_tipo_documento,
+            empty($request->id_emitente) ? 0 : $request->id_emitente,
+            $request->data,
+            empty($request->pesquisa) ? '' : $request->pesquisa
+        );
+        return view('documento.index', compact('tiposDocumento', 'emitentes', 'documentos'));
     }
 
     public function create(): View
@@ -44,7 +40,10 @@ class DocumentoController extends Controller
         DB::beginTransaction();
         $requestData = $request->all();
         $requestData['id_usuario'] = Auth::id();
-        if (!Documento::create($requestData)) {
+
+        $documento = Documento::create($requestData);
+
+        if (!$documento || !$documento->links()->create($requestData)) {
             DB::rollBack();
             return redirect()->route('documento.index')->with('error', "Falha ao cadastrar um documento.");
         }
@@ -69,7 +68,12 @@ class DocumentoController extends Controller
         $requestData = $request->all();
         $requestData['id_usuario'] = Auth::id();
 
-        if (!$documento->update($requestData)) {
+        $link = DocumentoLink::firstOrCreate(
+            ['documento_id' => $id],
+            ['documento_id' => $id, 'link' => $request->link]
+        );
+        
+        if (!($documento->update($requestData)) || !($link->update(['link' => $request->link]))) {
             DB::rollBack();
             return redirect()->route('documento.index')->with('error', "Falha ao alterar um documento.");
         }
