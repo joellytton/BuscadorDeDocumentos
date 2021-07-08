@@ -165,7 +165,7 @@
                         <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             <span style="height: 70px;"></span>
-                            <span class="d_none_sm">{{Auth::user()->nome_pessoa}} <i class="ti-angle-down"></i></span>
+                            <span class="d_none_sm">{{Auth::user()->nome}} <i class="ti-angle-down"></i></span>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="#"><i class="ti-user"></i> Perfil</a>

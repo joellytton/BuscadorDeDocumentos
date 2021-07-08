@@ -31,7 +31,7 @@
                     autocomplete="current-password" />
             </div>
 
-            {{Hash::make(123456)}}
+            {{-- {{Hash::make(123456)}} --}}
 
             <div class="flex items-center justify-center mt-4">
                 <x-button class="ml-3">
