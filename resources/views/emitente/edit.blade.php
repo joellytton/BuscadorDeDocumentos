@@ -1,24 +1,24 @@
 @extends('layouts.app')
 
-@section('page-title') Editar Função @endsection
+@section('page-title')Editar Emitente @endsection
 
 @section('main-content')
 
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{route("dashboard")}}">Início</a></li>
-    <li class="breadcrumb-item"><a href="{{route("orcamento.funcao.index")}}">Função</a></li>
-    <li class="breadcrumb-item active"><a>Editar Função</a></li>
+    <li class="breadcrumb-item"><a href="{{route("cadastroBasico.emitente.index")}}">Emitente</a></li>
+    <li class="breadcrumb-item active"><a>Editar Emitente</a></li>
 </ol>
 
 <div class="row">
     <div class="col-lg-12 mb-4">
         <div class="card">
             <div class="card-body">
-                <h4 class="card_title">Editar Função</h4>
-                <form action="{{route('orcamento.funcao.update', $funcionalFuncao->id)}}" method="POST">
+                <h4 class="card_title">Editar Emitente</h4>
+                <form action="{{route('cadastroBasico.emitente.update', $emitente->id)}}" method="POST">
                     @csrf
                     @method('PUT')
-                    @include('orcamento.funcao.form')
+                    @include('emitente.form')
                 </form>
             </div>
         </div>

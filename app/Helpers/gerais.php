@@ -1,7 +1,5 @@
 <?php
 
-use DateTime;
-
 if (!function_exists('data_br_para_iso')) {
     function data_br_para_iso($data)
     {

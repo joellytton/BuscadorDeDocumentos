@@ -1,12 +1,13 @@
 <div class="row">
     <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
         <div class="wrap">
-            <label for="funcao" class="form-control-label">Qdd:
-                <span class="text-danger">*</span>
+            <label for="nome" class="form-control-label">Nome:
+                <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
-            <input type="number" class="form-control focus" name="ano_qdd" value="{{@$qdd->ano_qdd}}">
-            @if ($errors->has('ano_qdd'))
-            <h6 class="heading text-danger">{{$errors->first('ano_qdd')}}</h6>
+            <input type="text" class="form-control focus" name="nome" placeholder="Nome"
+                value="{{@$emitente->nome}}">
+            @if ($errors->has('nome'))
+            <h6 class="heading text-danger">{{$errors->first('nome')}}</h6>
             @endif
         </div>
     </div>

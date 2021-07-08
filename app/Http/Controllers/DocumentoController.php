@@ -82,7 +82,7 @@ class DocumentoController extends Controller
         return redirect()->route('documento.index')->with('success', "Documento alterado com sucesso.");
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $documento = Documento::findOrFail($id);
         DB::beginTransaction();

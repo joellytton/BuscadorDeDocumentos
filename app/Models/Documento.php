@@ -5,8 +5,8 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Emitente;
 use App\Models\TipoDocumento;
-use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\AbstractPaginator;
 
 class Documento extends Model
 {
@@ -29,10 +29,10 @@ class Documento extends Model
     ];
 
 
-    public static function buscarDocumento(int $tipo, int $emitente, $data, string $busca): AbstractPaginator
+    public static function buscarDocumento(int $tipo, int $emitente, $data, string $busca)
     {
-        $documento = self::with('links')
-        ->where('status', 'Ativo');
+         $documento = self::with('links')
+            ->where('status', 'Ativo');
 
         if ($tipo > 0) {
             $documento->where('id_tipo_documento', $tipo);
@@ -46,11 +46,13 @@ class Documento extends Model
             $documento->where('data', $data);
         }
 
-        return $documento->where(function ($q) use ($busca) {
+        $documento->where(function ($q) use ($busca) {
             $q->orWhere('numero', 'LIKE', "%$busca%")
                 ->orWhere('doe', 'LIKE', "%$busca%")
                 ->orWhere('descricao', 'LIKE', "%$busca%");
-        })->paginate(10);
+        });
+
+        return $documento->paginate(10);
     }
 
     public function emitente()

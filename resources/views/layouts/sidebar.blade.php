@@ -24,31 +24,29 @@
                         </a>
                     </li>
 
-                    <li {!! (Request::is('sdsd') ? 'class="active"' : "" ) !!}>
+                    <li {!! (Request::is('documento*') ? 'class="active"' : "" ) !!}>
                         <a href="{{route("documento.index")}}">
                             <i class="ti-folder"></i>
                             <span>Documento</span>
                         </a>
                     </li>
-                    <!--=========================*
-                              Session
-                    *===========================-->
-                    <li {!! (Request::is('orcamento*') ? 'class="active"' : "" ) !!}>
+                    
+                    <li {!! (Request::is('cadastroBasico*') ? 'class="active"' : "" ) !!}>
                         <a href="javascript:void(0)" aria-expanded="true">
                             <i class="feather ft-file-plus"></i>
                             <span>Cadastro Básico</span>
                         </a>
                         <ul class="collapse">
-                            <li {!! (Request::is('register') ? 'class="active"' :"") !!}>
-                                <a href="#">
-                                    <i class="ti-folder"></i><span>Tipo</span>
+                            <li {!! (Request::is('cadastroBasico/tipoDocumento*') ? 'class="active"' :"") !!}>
+                                <a href="{{route("cadastroBasico.tipoDocumento.index")}}">
+                                    <i class="ti-folder"></i>
+                                    <span>Tipo</span>
                                 </a>
                             </li>
 
-                            <li {!! (Request::is('orcamento/funcionalProgramatica*') ? 'class="active"' :"") !!}>
-                                <a href="#">
-                                    <i class="ti-folder"></i>
-                                    <span>Remetente</span>
+                            <li {!! (Request::is('cadastroBasico/emitente*') ? 'class="active"' :"") !!}>
+                                <a href="{{route("cadastroBasico.emitente.index")}}">
+                                    <i class="ti-folder"></i><span>Emitente</span>
                                 </a>
                             </li>
                         </ul>

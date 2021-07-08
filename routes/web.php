@@ -3,21 +3,18 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DocumentoController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\EmitenteController;
+use App\Http\Controllers\TipoDocumentoController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    
     Route::resource('/documento', DocumentoController::class);
+    
+    Route::name('cadastroBasico.')->group(function () {
+        Route::resource('/cadastroBasico/tipoDocumento', TipoDocumentoController::class);
+        Route::resource('/cadastroBasico/emitente', EmitenteController::class);
+    });
 });
 
 
