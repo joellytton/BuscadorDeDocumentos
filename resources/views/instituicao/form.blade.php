@@ -5,7 +5,7 @@
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
             <input type="text" class="form-control focus" name="nome" placeholder="Nome"
-                value="{{@$emitente->nome}}">
+                value="{{@$instituicao->nome}}">
             @if ($errors->has('nome'))
             <h6 class="heading text-danger">{{$errors->first('nome')}}</h6>
             @endif

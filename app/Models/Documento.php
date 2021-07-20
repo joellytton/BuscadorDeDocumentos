@@ -12,8 +12,7 @@ class Documento extends Model
 {
     protected $table = 'documento';
 
-    const CREATED_AT = 'data_criacao';
-    const UPDATED_AT = 'data_atualizacao';
+
 
     protected $fillable = [
         'numero',
@@ -22,24 +21,25 @@ class Documento extends Model
         'descricao',
         'data_criacao',
         'data_atualizacao',
-        'id_usuario',
-        'id_emitente',
+        'id_esfera',
+        'id_instituicao',
         'id_tipo_documento',
+        'id_usuario',
         'status',
     ];
 
 
-    public static function buscarDocumento(int $tipo, int $emitente, $data, string $busca)
+    public static function buscarDocumento(int $tipo, int $instituicao, $data, string $busca)
     {
-         $documento = self::with('links')
+        $documento = self::with('instituicao', 'links', 'tipoDocumento')
             ->where('status', 'Ativo');
 
         if ($tipo > 0) {
             $documento->where('id_tipo_documento', $tipo);
         }
 
-        if ($emitente > 0) {
-            $documento->where('id_emitente', $emitente);
+        if ($instituicao > 0) {
+            $documento->where('id_instituicao', $instituicao);
         }
 
         if (!empty($data)) {
@@ -55,9 +55,9 @@ class Documento extends Model
         return $documento->paginate(10);
     }
 
-    public function emitente()
+    public function instituicao()
     {
-        return $this->belongsTo(Emitente::class, 'id_emitente');
+        return $this->belongsTo(Instituicao::class, 'id_instituicao');
     }
 
     public function tipoDocumento()

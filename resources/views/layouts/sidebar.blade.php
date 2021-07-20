@@ -44,9 +44,9 @@
                                 </a>
                             </li>
 
-                            <li {!! (Request::is('cadastroBasico/emitente*') ? 'class="active"' :"") !!}>
-                                <a href="{{route("cadastroBasico.emitente.index")}}">
-                                    <i class="ti-folder"></i><span>Emitente</span>
+                            <li {!! (Request::is('cadastroBasico/instituicao*') ? 'class="active"' :"") !!}>
+                                <a href="{{route("cadastroBasico.instituicao.index")}}">
+                                    <i class="ti-folder"></i><span>Insituição</span>
                                 </a>
                             </li>
                         </ul>

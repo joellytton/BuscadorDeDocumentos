@@ -1,6 +1,43 @@
 <div class="row">
     <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
         <div class="wrap">
+            <label for="id_esfera" class="form-control-label">Esfera:
+                <span class="text-danger" style="font-size: 14px;">*</span>
+            </label>
+            <select name="id_esfera" class="form-control">
+                <option value="" selected>Selecione uma opção</option>
+                @foreach ($esferas as $esfera)
+                <option value="{{$esfera->id}}"
+                    {{(empty(old('id_esfera')) ? @$documentos->id_esfera : old('id_esfera')) == $esfera->id ? 'selected' : ''}}>
+                    {{$esfera->nome}}
+                </option>
+                @endforeach
+            </select>
+            @if ($errors->has('id_esfera'))
+            <h6 class="heading text-danger">{{$errors->first('id_esfera')}}</h6>
+            @endif
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
+        <div class="wrap">
+            <label for="categoria_id" class="form-control-label">Categorias:
+                <span class="text-danger" style="font-size: 14px;">*</span>
+            </label>
+            <select name="categoria_id" class="form-control" type="text" id="categoria-ajax" style="width: 100%">
+            
+            </select>
+
+            @if ($errors->has('id_tipo_documento'))
+            <h6 class="heading text-danger">{{$errors->first('id_tipo_documento')}}</h6>
+            @endif
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
+        <div class="wrap">
             <label for="id_tipo_documento" class="form-control-label">Tipo:
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
@@ -22,21 +59,21 @@
 
     <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
         <div class="wrap">
-            <label for="id_emitente" class="form-control-label">Emitente:
+            <label for="id_instituicao" class="form-control-label">Instituição:
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
-            <select name="id_emitente" class="form-control">
+            <select name="id_instituicao" class="form-control">
                 <option value="" selected>Selecione uma opção</option>
-                @foreach ($emitentes as $emitente)
-                <option value="{{$emitente->id}}"
-                    {{(empty(old('id_emitente')) ? @$documentos->id_emitente : old('id_emitente')) == $emitente->id ? 'selected' : ''}}>
-                    {{$emitente->nome}}
+                @foreach ($instituicoes as $instituicao)
+                <option value="{{$instituicao->id}}"
+                    {{(empty(old('id_instituicao')) ? @$documentos->id_instituicao : old('id_instituicao')) == $instituicao->id ? 'selected' : ''}}>
+                    {{$instituicao->nome}}
                 </option>
 
                 @endforeach
             </select>
-            @if ($errors->has('cd_funcao'))
-            <h6 class="heading text-danger">{{$errors->first('cd_funcao')}}</h6>
+            @if ($errors->has('id_instituicao'))
+            <h6 class="heading text-danger">{{$errors->first('id_instituicao')}}</h6>
             @endif
         </div>
     </div>
