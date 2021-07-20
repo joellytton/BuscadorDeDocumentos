@@ -95,6 +95,7 @@
                     <table class="table table-hover">
                         <thead class="bg-light text-capitalize">
                             <tr>
+                                <th scope="col" class="text-center">ESFERA</th>
                                 <th scope="col" class="text-center">TIPO</th>
                                 <th scope="col" class="text-center">NUMERO</th>
                                 <th scope="col" class="text-center">DOE</th>
@@ -102,13 +103,14 @@
                                 <th scope="col" class="text-center">INSTITUIÇÃO</th>
                                 <th scope="col" class="text-center">DESCRIÇÃO</th>
                                 <th scope="col" class="text-center">LINK</th>
-                                <th scope="col" class="text-center">STATUS</th>
+                                <th scope="col" class="text-center">SITUACAO</th>
                                 <th scope="col" class="text-center">AÇÃO</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($documentos as $documento)
                             <tr scope="row">
+                                <td class="text-center">{{@$documento->esfera->nome}}</td>
                                 <td class="text-center">{{$documento->tipoDocumento->nome}}</td>
                                 <td class="text-center">{{$documento->numero}}</td>
                                 <td class="text-center">{{$documento->doe}}</td>

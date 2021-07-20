@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categoria;
-use App\Models\Emitente;
-use App\Models\Documento;
-use App\Models\DocumentoLink;
 use App\Models\Esfera;
-use App\Models\Instituicao;
+use App\Models\Documento;
 use Illuminate\View\View;
+use App\Models\Instituicao;
 use Illuminate\Http\Request;
+use App\Models\DocumentoLink;
 use App\Models\TipoDocumento;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\DocumentoRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class DocumentoController extends Controller
@@ -41,7 +40,7 @@ class DocumentoController extends Controller
         return view('documento.create', compact('esferas', 'instituicoes', 'tipoDocumentos'));
     }
 
-    public function store(Request $request): Response
+    public function store(DocumentoRequest $request): Response
     {
         DB::beginTransaction();
         $requestData = $request->all();
@@ -68,7 +67,7 @@ class DocumentoController extends Controller
         return view('documento.edit', compact('documentos', 'esferas', 'instituicoes', 'tipoDocumentos'));
     }
 
-    public function update(Request $request, $id)
+    public function update(DocumentoRequest $request, $id)
     {
         $documento = Documento::findOrFail($id);
         DB::beginTransaction();

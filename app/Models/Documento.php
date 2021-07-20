@@ -12,7 +12,8 @@ class Documento extends Model
 {
     protected $table = 'documento';
 
-
+    const CREATED_AT = 'data_criacao';
+    const UPDATED_AT = 'data_atualizacao';
 
     protected $fillable = [
         'numero',
@@ -31,7 +32,7 @@ class Documento extends Model
 
     public static function buscarDocumento(int $tipo, int $instituicao, $data, string $busca)
     {
-        $documento = self::with('instituicao', 'links', 'tipoDocumento')
+        $documento = self::with('esfera', 'instituicao', 'links', 'tipoDocumento')
             ->where('status', 'Ativo');
 
         if ($tipo > 0) {
@@ -68,6 +69,11 @@ class Documento extends Model
     public function usuario()
     {
         return $this->belongsTo(User::class, 'id_usuario');
+    }
+
+    public function esfera()
+    {
+        return $this->belongsTo(Esfera::class, 'id_esfera');
     }
 
     public function links()
