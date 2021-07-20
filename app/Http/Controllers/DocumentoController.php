@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
 use App\Models\Emitente;
 use App\Models\Documento;
 use App\Models\DocumentoLink;
+use App\Models\Esfera;
+use App\Models\Instituicao;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\TipoDocumento;
@@ -18,21 +21,21 @@ class DocumentoController extends Controller
     public function index(Request $request): View
     {
         $tiposDocumento = TipoDocumento::where('status', 'Ativo')->get();
-        $emitentes = Emitente::where('status', 'Ativo')->get();
+        $instituicoes = Instituicao::where('status', 'Ativo')->get();
         $documentos = Documento::buscarDocumento(
             empty($request->id_tipo_documento) ? 0 : $request->id_tipo_documento,
-            empty($request->id_emitente) ? 0 : $request->id_emitente,
+            empty($request->id_instituicao) ? 0 : $request->id_instituicao,
             $request->data,
             empty($request->pesquisa) ? '' : $request->pesquisa
         );
-        return view('documento.index', compact('tiposDocumento', 'emitentes', 'documentos'));
+        return view('documento.index', compact('tiposDocumento', 'instituicoes', 'documentos'));
     }
 
     public function create(): View
     {
         $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
-        $emitentes = Emitente::where('status', 'Ativo')->get();
-        return view('documento.create', compact('tipoDocumentos', 'emitentes'));
+        $instituicoes = Instituicao::where('status', 'Ativo')->get();
+        return view('documento.create', compact('tipoDocumentos', 'instituicoes'));
     }
 
     public function store(Request $request): Response
@@ -55,9 +58,12 @@ class DocumentoController extends Controller
     public function edit($id): View
     {
         $documentos = Documento::findOrFail($id);
+        $categorias = Categoria::where('status', 'Ativo');
+        $esferas = Esfera::where('status', 'Ativo')->get();
         $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
-        $emitentes = Emitente::where('status', 'Ativo')->get();
-        return view('documento.edit', compact('documentos', 'tipoDocumentos', 'emitentes'));
+        $instituicoes = Instituicao::where('status', 'Ativo')->get();
+
+        return view('documento.edit', compact('categorias', 'documentos', 'esferas', 'instituicoes', 'tipoDocumentos'));
     }
 
     public function update(Request $request, $id)
@@ -72,7 +78,7 @@ class DocumentoController extends Controller
             ['documento_id' => $id],
             ['documento_id' => $id, 'link' => $request->link]
         );
-        
+
         if (!($documento->update($requestData)) || !($link->update(['link' => $request->link]))) {
             DB::rollBack();
             return redirect()->route('documento.index')->with('error', "Falha ao alterar um documento.");
@@ -87,7 +93,7 @@ class DocumentoController extends Controller
         $documento = Documento::findOrFail($id);
         DB::beginTransaction();
 
-        if (!$documento->update(['status' => 'Inativo'])) {
+        if (!$documento->update(['status' => 'Excluido'])) {
             DB::rollBack();
             return redirect()->route('documento.index')->with('error', "Falha ao deletar um documento.");
         }

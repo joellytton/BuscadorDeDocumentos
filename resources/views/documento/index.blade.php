@@ -45,13 +45,13 @@
 
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="wrap">
-                        <label for="id_emitente" class="form-control-label">Emitente:</label>
-                        <select class="form-control" name="id_emitente">
+                        <label for="id_instituicao" class="form-control-label">Instituições:</label>
+                        <select class="form-control" name="id_instituicao">
                             <option value="">Selecione uma opção</option>
-                            @foreach ($emitentes as $emitente)
-                            <option value="{{$emitente->id}}"
-                                {{ request('id_emitente') == $emitente->id ? 'selected' : ''}}>
-                                {{$emitente->nome}}
+                            @foreach ($instituicoes as $instituicao)
+                            <option value="{{$instituicao->id}}"
+                                {{ request('id_instituicao') == $instituicao->id ? 'selected' : ''}}>
+                                {{$instituicao->nome}}
                             </option>
                             @endforeach
                         </select>
@@ -99,9 +99,10 @@
                                 <th scope="col" class="text-center">NUMERO</th>
                                 <th scope="col" class="text-center">DOE</th>
                                 <th scope="col" class="text-center">DATA</th>
-                                <th scope="col" class="text-center">EMITENTE</th>
+                                <th scope="col" class="text-center">INSTITUIÇÃO</th>
                                 <th scope="col" class="text-center">DESCRIÇÃO</th>
                                 <th scope="col" class="text-center">LINK</th>
+                                <th scope="col" class="text-center">STATUS</th>
                                 <th scope="col" class="text-center">AÇÃO</th>
                             </tr>
                         </thead>
@@ -112,13 +113,14 @@
                                 <td class="text-center">{{$documento->numero}}</td>
                                 <td class="text-center">{{$documento->doe}}</td>
                                 <td class="text-center">{{data_iso_para_br($documento->data)}}</td>
-                                <td class="text-center">{{$documento->emitente->nome}}</td>
+                                <td class="text-center">{{$documento->instituicao->nome}}</td>
                                 <td class="text-center">{{$documento->descricao}}</td>
                                 <td class="text-center">
                                     <a href="{{@$documento->links->link}}" target="_black">
                                         {{@$documento->links->link}}
                                     </a>
                                 </td>
+                                <td class="text-center">{{$documento->status}}</td>
                                 <td class="text-center">
                                     <a href="{{route('documento.edit', $documento->id)}}">
                                         <button class="btn btn-success btn-sm mt-2" title="Editar Registro">
@@ -145,7 +147,7 @@
                     {{$documentos->appends([
                         'pesquisa' => Request::get('pesquisa'), 
                         'id_tipo_documento' => Request::get('id_tipo_documento'),
-                        'id_emitente' => Request::get('id_emitente'),
+                        'id_instituicao' => Request::get('id_instituicao'),
                         'data' => Request::get('data')
                         ])->links() }}
                 </div>
