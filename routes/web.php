@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\InstituicaoController;
+use App\Http\Controllers\Selects\CategoriaPorNome;
 use App\Http\Controllers\TipoDocumentoController;
 
 Route::middleware('auth')->group(function () {
@@ -15,6 +16,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('/cadastroBasico/instituicao', InstituicaoController::class);
         Route::resource('/cadastroBasico/tipoDocumento', TipoDocumentoController::class);
     });
+
+    Route::post('/empresas/buscar-por/nome', CategoriaPorNome::class);
 });
 
 

@@ -12,8 +12,7 @@ class Documento extends Model
 {
     protected $table = 'documento';
 
-    const CREATED_AT = 'data_criacao';
-    const UPDATED_AT = 'data_atualizacao';
+
 
     protected $fillable = [
         'numero',

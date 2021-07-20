@@ -20,22 +20,25 @@ class DocumentoController extends Controller
 
     public function index(Request $request): View
     {
+        $esferas = Esfera::where('status', 'Ativo')->get();
         $tiposDocumento = TipoDocumento::where('status', 'Ativo')->get();
         $instituicoes = Instituicao::where('status', 'Ativo')->get();
+
         $documentos = Documento::buscarDocumento(
             empty($request->id_tipo_documento) ? 0 : $request->id_tipo_documento,
             empty($request->id_instituicao) ? 0 : $request->id_instituicao,
             $request->data,
             empty($request->pesquisa) ? '' : $request->pesquisa
         );
-        return view('documento.index', compact('tiposDocumento', 'instituicoes', 'documentos'));
+        return view('documento.index', compact('documentos', 'esferas', 'instituicoes', 'tiposDocumento'));
     }
 
     public function create(): View
     {
-        $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
+        $esferas = Esfera::where('status', 'Ativo')->get();
         $instituicoes = Instituicao::where('status', 'Ativo')->get();
-        return view('documento.create', compact('tipoDocumentos', 'instituicoes'));
+        $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
+        return view('documento.create', compact('esferas', 'instituicoes', 'tipoDocumentos'));
     }
 
     public function store(Request $request): Response
@@ -58,12 +61,11 @@ class DocumentoController extends Controller
     public function edit($id): View
     {
         $documentos = Documento::findOrFail($id);
-        $categorias = Categoria::where('status', 'Ativo');
         $esferas = Esfera::where('status', 'Ativo')->get();
         $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
         $instituicoes = Instituicao::where('status', 'Ativo')->get();
 
-        return view('documento.edit', compact('categorias', 'documentos', 'esferas', 'instituicoes', 'tipoDocumentos'));
+        return view('documento.edit', compact('documentos', 'esferas', 'instituicoes', 'tipoDocumentos'));
     }
 
     public function update(Request $request, $id)

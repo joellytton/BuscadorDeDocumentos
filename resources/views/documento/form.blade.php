@@ -24,13 +24,8 @@
             <label for="categoria_id" class="form-control-label">Categorias:
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
-            <select name="categoria_id" class="form-control">
-                <option value="" selected>Selecione uma opção</option>
-                @foreach ($categorias as $categoria)
-                <option value="{{$categoria->id}}">
-                    {{$categoria->nome}}
-                </option>
-                @endforeach
+            <select name="categoria_id" class="form-control" type="text" id="categoria-ajax" style="width: 100%">
+            
             </select>
 
             @if ($errors->has('id_tipo_documento'))
