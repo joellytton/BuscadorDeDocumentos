@@ -52,7 +52,7 @@ class LoginRequest extends FormRequest
         if (!Auth::attempt([
             'login' => $login['login'],
             'password' => $senha['senha'],
-            'status' => 1
+            'status' => 'Ativo'
         ], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
