@@ -67,7 +67,7 @@ class DocumentoController extends Controller
         return view('documento.edit', compact('documentos', 'esferas', 'instituicoes', 'tipoDocumentos'));
     }
 
-    public function update(DocumentoRequest $request, $id)
+    public function update(DocumentoRequest $request, $id): Response
     {
         $documento = Documento::findOrFail($id);
         DB::beginTransaction();
@@ -89,7 +89,7 @@ class DocumentoController extends Controller
         return redirect()->route('documento.index')->with('success', "Documento alterado com sucesso.");
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id): Response
     {
         $documento = Documento::findOrFail($id);
         DB::beginTransaction();

@@ -37,16 +37,22 @@
                             <span>Cadastro Básico</span>
                         </a>
                         <ul class="collapse">
-                            <li {!! (Request::is('cadastroBasico/tipoDocumento*') ? 'class="active"' :"") !!}>
-                                <a href="{{route("cadastroBasico.tipoDocumento.index")}}">
-                                    <i class="ti-folder"></i>
-                                    <span>Tipo</span>
+                            <li {!! (Request::is('cadastroBasico/categoria*') ? 'class="active"' :"") !!}>
+                                <a href="{{route("cadastroBasico.categoria.index")}}">
+                                    <i class="ti-folder"></i><span>Categorias</span>
                                 </a>
                             </li>
 
                             <li {!! (Request::is('cadastroBasico/instituicao*') ? 'class="active"' :"") !!}>
                                 <a href="{{route("cadastroBasico.instituicao.index")}}">
                                     <i class="ti-folder"></i><span>Insituição</span>
+                                </a>
+                            </li>
+
+                            <li {!! (Request::is('cadastroBasico/tipoDocumento*') ? 'class="active"' :"") !!}>
+                                <a href="{{route("cadastroBasico.tipoDocumento.index")}}">
+                                    <i class="ti-folder"></i>
+                                    <span>Tipo</span>
                                 </a>
                             </li>
                         </ul>

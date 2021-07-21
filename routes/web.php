@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DocumentoController;
@@ -13,6 +14,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/documento', DocumentoController::class);
     
     Route::name('cadastroBasico.')->group(function () {
+        Route::resource('/cadastroBasico/categoria', CategoriaController::class);
         Route::resource('/cadastroBasico/instituicao', InstituicaoController::class);
         Route::resource('/cadastroBasico/tipoDocumento', TipoDocumentoController::class);
     });

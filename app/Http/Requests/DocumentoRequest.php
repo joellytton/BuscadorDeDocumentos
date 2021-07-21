@@ -36,10 +36,13 @@ class DocumentoRequest extends FormRequest
     public function messages()
     {
         return [
-            'id_esfera.required' => 'O campo esfera é obrigatório.',
-            'id_tipo_documento' => 'O campo esfera é obrigatório.',
-            'numero.required' => 'O campo tipo é obrigatório.',
-            'numero.max' => 'O campo número não pode ser maior que 255 caracteres.',
+            'id_esfera.required' => 'A esfera é obrigatório.',
+            'id_instituicao.required' => 'O instituição é obrigatório.',
+            'doe.required' => 'O DOE é obrigatório.',
+            'data.required' => 'A data é obrigatório.',
+            'id_tipo_documento.required' => 'O tipo é obrigatório.',
+            'numero.required' => 'O número é obrigatório.',
+            'numero.max' => 'O número não pode ser maior que 255 caracteres.',
         ];
     }
 }
