@@ -26,6 +26,7 @@ class Documento extends Model
         'id_instituicao',
         'id_tipo_documento',
         'id_usuario',
+        'id_situacao',
         'status',
     ];
 
@@ -56,9 +57,29 @@ class Documento extends Model
         return $documento->paginate(10);
     }
 
+    public function categorias()
+    {
+        return $this->belongsToMany(
+            Categoria::class,
+            'categoria_documento',
+            'id_documento',
+            'id_categoria'
+        );
+    }
+
+    public function esfera()
+    {
+        return $this->belongsTo(Esfera::class, 'id_esfera');
+    }
+
     public function instituicao()
     {
         return $this->belongsTo(Instituicao::class, 'id_instituicao');
+    }
+
+    public function links()
+    {
+        return $this->hasOne(DocumentoLink::class, 'documento_id');
     }
 
     public function tipoDocumento()
@@ -69,15 +90,5 @@ class Documento extends Model
     public function usuario()
     {
         return $this->belongsTo(User::class, 'id_usuario');
-    }
-
-    public function esfera()
-    {
-        return $this->belongsTo(Esfera::class, 'id_esfera');
-    }
-
-    public function links()
-    {
-        return $this->hasOne(DocumentoLink::class, 'documento_id');
     }
 }

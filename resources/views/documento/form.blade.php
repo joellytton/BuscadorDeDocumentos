@@ -24,8 +24,13 @@
             <label for="categoria_id" class="form-control-label">Categorias:
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
-            <select name="categoria_id" class="form-control" type="text" id="categoria-ajax" style="width: 100%">
-            
+            <select name="categoria_id[]" class="form-control" type="text" multiple="multiple" id="categoria-ajax" style="width: 100%">
+                @if (!empty($documentos))
+                    @foreach (@$documentos->categorias as $categoria)
+                    <option value="{{$categoria->id}}" selected>{{$categoria->nome}}</option>
+                    @endforeach
+                @endif
+               
             </select>
 
             @if ($errors->has('id_tipo_documento'))
@@ -120,6 +125,28 @@
     </div>
 
     <div class="col-sm-12 col-md-3 col-lg-3 mt-4">
+        <div class="wrap">
+            <label for="id_situacao" class="form-control-label">Situação:
+                <span class="text-danger" style="font-size: 14px;">*</span>
+            </label>
+            <select name="id_situacao" class="form-control">
+                <option value="" selected>Selecione uma opção</option>
+                @foreach ($situacoes as $situacao)
+                <option value="{{$situacao->id}}"
+                    {{(empty(old('id_situacao')) ? @$documentos->id_situacao : old('id_situacao')) == $situacao->id ? 'selected' : ''}}>
+                    {{$situacao->nome}}
+                </option>
+                @endforeach
+            </select>
+            @if ($errors->has('id_situacao'))
+            <h6 class="heading text-danger">{{$errors->first('id_situacao')}}</h6>
+            @endif
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
         <div class="wrap">
             <label for="link" class="form-control-label">Link:
                 <span class="text-danger" style="font-size: 14px;">*</span>

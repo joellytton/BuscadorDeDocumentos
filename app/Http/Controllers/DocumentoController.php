@@ -12,6 +12,7 @@ use App\Models\TipoDocumento;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\DocumentoRequest;
+use App\Models\Situacao;
 use Symfony\Component\HttpFoundation\Response;
 
 class DocumentoController extends Controller
@@ -36,8 +37,9 @@ class DocumentoController extends Controller
     {
         $esferas = Esfera::where('status', 'Ativo')->get();
         $instituicoes = Instituicao::where('status', 'Ativo')->get();
+        $situacoes = Situacao::where('status', 'Ativo')->get();
         $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
-        return view('documento.create', compact('esferas', 'instituicoes', 'tipoDocumentos'));
+        return view('documento.create', compact('esferas', 'instituicoes', 'situacoes', 'tipoDocumentos'));
     }
 
     public function store(DocumentoRequest $request): Response
@@ -53,6 +55,8 @@ class DocumentoController extends Controller
             return redirect()->route('documento.index')->with('error', "Falha ao cadastrar um documento.");
         }
 
+        $documento->categorias()->sync($requestData['categoria_id']);
+
         DB::commit();
         return redirect()->route('documento.index')->with('success', "Documento cadastrada com sucesso.");
     }
@@ -63,8 +67,9 @@ class DocumentoController extends Controller
         $esferas = Esfera::where('status', 'Ativo')->get();
         $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
         $instituicoes = Instituicao::where('status', 'Ativo')->get();
+        $situacoes = Situacao::where('status', 'Ativo')->get();
 
-        return view('documento.edit', compact('documentos', 'esferas', 'instituicoes', 'tipoDocumentos'));
+        return view('documento.edit', compact('documentos', 'esferas', 'instituicoes', 'situacoes', 'tipoDocumentos'));
     }
 
     public function update(DocumentoRequest $request, $id): Response
@@ -79,6 +84,8 @@ class DocumentoController extends Controller
             ['documento_id' => $id],
             ['documento_id' => $id, 'link' => $request->link]
         );
+
+        $documento->categorias()->sync($requestData['categoria_id']);
 
         if (!($documento->update($requestData)) || !($link->update(['link' => $request->link]))) {
             DB::rollBack();

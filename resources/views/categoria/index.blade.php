@@ -13,7 +13,7 @@
     <div class="col-lg-12 text-right mb-4">
         <div class="card">
             <div class="card-body">
-                <a class="btn btn-primary btn-md" href="{{route('cadastroBasico.tipoDocumento.create')}}" role="button">
+                <a class="btn btn-primary btn-md" href="{{route('cadastroBasico.categoria.create')}}" role="button">
                     Nova Categoria
                 </a>
             </div>
@@ -25,7 +25,7 @@
     <div class="col-12 mb-4">
         <div class="card">
             <div class="card-body">
-                <form method="GET" action="{{ url('/cadastroBasico/tipoDocumento') }}" accept-charset="UTF-8"
+                <form method="GET" action="{{ url('/cadastroBasico/categoria') }}" accept-charset="UTF-8"
                     class="form-inline my-2 my-lg-0 float-right" role="search">
                     <div class="input-group">
                         <input type="text" class="form-control" name="search" placeholder="Buscar..."
@@ -55,14 +55,14 @@
                                 <td class="text-center">{{$categoria->id}}</td>
                                 <td class="text-center">{{$categoria->nome}}</td>
                                 <td class="text-center">
-                                    <a href="{{route('cadastroBasico.tipoDocumento.edit',$categoria->id)}}">
+                                    <a href="{{route('cadastroBasico.categoria.edit',$categoria->id)}}">
                                         <button class="btn btn-success btn-sm" title="Editar Registro">
                                             <i class="ti-pencil" data-toggle="tooltip" title="Editar Registro"
                                                 style="color: black"></i>
                                         </button>
                                     </a>
                                     &nbsp;
-                                    <form action="{{route('cadastroBasico.tipoDocumento.destroy', $categoria->id)}}"
+                                    <form action="{{route('cadastroBasico.categoria.destroy', $categoria->id)}}"
                                         method="POST" id="formLaravel{{$categoria->id}}" style="display:inline;">
                                         @method('DELETE')
                                         @csrf

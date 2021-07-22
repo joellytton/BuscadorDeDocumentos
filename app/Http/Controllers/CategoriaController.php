@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use Illuminate\View\View;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoriaController extends Controller
 {
@@ -25,21 +27,58 @@ class CategoriaController extends Controller
 
     public function store(Request $request): Response
     {
-        dd($request);
+        $requestData = $request->all();
+        $requestData['id_usuario'] = Auth::id();
+
+        $categoria = Categoria::create($requestData);
+
+        if (!$categoria) {
+            DB::rollBack();
+            return redirect()->route('cadastroBasico.categoria.index')
+                ->with('error', "Falha ao cadastrar um categoria.");
+        }
+
+        DB::commit();
+        return redirect()->route('cadastroBasico.categoria.index')
+            ->with('success', "Categoria cadastrada com sucesso.");
     }
 
     public function edit(int $id): View
     {
-        return view('categoria.edit');
+        $categoria = Categoria::findOrFail($id);
+        return view('categoria.edit', compact('categoria'));
     }
 
     public function update(Request $request, $id): Response
     {
-        dd($request, $id);
+        $requestData = $request->all();
+        $requestData['id_usuario'] = Auth::id();
+
+        $categoria = Categoria::findOrFail($id);
+
+        if (!$categoria->update($requestData)) {
+            DB::rollBack();
+            return redirect()->route('cadastroBasico.categoria.index')
+                ->with('error', "Falha ao alterada uma categoria.");
+        }
+
+        DB::commit();
+        return redirect()->route('cadastroBasico.categoria.index')
+            ->with('success', "Categoria alterada com sucesso.");
     }
 
     public function destroy(int $id): Response
     {
-        dd($id);
+        $categoria = Categoria::findOrFail($id);
+
+        if (!$categoria->update(['status' => 'Inativo'])) {
+            DB::rollBack();
+            return redirect()->route('cadastroBasico.categoria.index')
+                ->with('error', "Falha ao deletar uma categoria.");
+        }
+
+        DB::commit();
+        return redirect()->route('cadastroBasico.categoria.index')
+            ->with('success', "Categoria deletada com sucesso.");
     }
 }
