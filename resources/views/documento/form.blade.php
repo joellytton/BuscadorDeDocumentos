@@ -30,11 +30,10 @@
                     <option value="{{$categoria->id}}" selected>{{$categoria->nome}}</option>
                     @endforeach
                 @endif
-               
-            </select>
+s            </select>
 
-            @if ($errors->has('id_tipo_documento'))
-            <h6 class="heading text-danger">{{$errors->first('id_tipo_documento')}}</h6>
+            @if ($errors->has('categoria_id'))
+            <h6 class="heading text-danger">{{$errors->first('categoria_id')}}</h6>
             @endif
         </div>
     </div>
