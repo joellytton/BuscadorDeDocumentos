@@ -100,7 +100,7 @@
 
     <div class="col-sm-12 col-md-3 col-lg-3 mt-4">
         <div class="wrap">
-            <label for="doe" class="form-control-label">DOE:
+            <label for="doe" class="form-control-label">Diário Eletrônico:
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
             <input type="text" class="form-control" name="doe"
@@ -163,6 +163,7 @@
 <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
         <div class="wrap">
+            <label for="link" class="form-control-label">Descrição:</label>
             <textarea class="form-control" name="descricao" cols="30"
                 rows="5">{{(empty(old('descricao')) ? @$documentos->descricao : old('descricao')) }}</textarea>
         </div>

@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\Emitente;
 use App\Models\TipoDocumento;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\AbstractPaginator;
+use Illuminate\Http\Request;
 
 class Documento extends Model
 {
@@ -31,27 +31,35 @@ class Documento extends Model
     ];
 
 
-    public static function buscarDocumento(int $tipo, int $instituicao, $data, string $busca)
+    public static function buscarDocumento(Request $request): AbstractPaginator
     {
         $documento = self::with('esfera', 'instituicao', 'links', 'tipoDocumento')
             ->where('status', 'Ativo');
 
-        if ($tipo > 0) {
-            $documento->where('id_tipo_documento', $tipo);
+        if ($request->id_tipo_documento > 0) {
+            $documento->where('id_tipo_documento', $request->id_tipo_documento);
         }
 
-        if ($instituicao > 0) {
-            $documento->where('id_instituicao', $instituicao);
+        if ($request->id_instituicao > 0) {
+            $documento->where('id_instituicao', $request->id_instituicao);
         }
 
-        if (!empty($data)) {
-            $documento->where('data', $data);
+        if (!empty($request->data)) {
+            $documento->where('data', $request->data);
         }
 
-        $documento->where(function ($q) use ($busca) {
-            $q->orWhere('numero', 'LIKE', "%$busca%")
-                ->orWhere('doe', 'LIKE', "%$busca%")
-                ->orWhere('descricao', 'LIKE', "%$busca%");
+        if (!empty($request->id_esfera)) {
+            $documento->where('id_esfera', $request->id_esfera);
+        }
+
+        if (!empty($request->id_situacao)) {
+            $documento->where('id_situacao', $request->id_situacao);
+        }
+
+        $documento->where(function ($q) use ($request) {
+            $q->orWhere('numero', 'LIKE', "%$request->pesquisa%")
+                ->orWhere('doe', 'LIKE', "%$request->pesquisa%")
+                ->orWhere('descricao', 'LIKE', "%$request->pesquisa%");
         });
 
         return $documento->paginate(10);

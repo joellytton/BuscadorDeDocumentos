@@ -31,7 +31,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="wrap">
                         <label for="id_tipo_documento" class="form-control-label">Tipo:</label>
-                        <select class="form-control" name="id_tipo_documento">
+                        <select class="form-control select2" name="id_tipo_documento">
                             <option value="">Selecione uma opção</option>
                             @foreach ($tiposDocumento as $documento)
                             <option value="{{$documento->id}}"
@@ -46,7 +46,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="wrap">
                         <label for="id_instituicao" class="form-control-label">Instituições:</label>
-                        <select class="form-control" name="id_instituicao">
+                        <select class="form-control select2" name="id_instituicao">
                             <option value="">Selecione uma opção</option>
                             @foreach ($instituicoes as $instituicao)
                             <option value="{{$instituicao->id}}"
@@ -60,19 +60,67 @@
             </div>
 
             <div class="row mt-5">
-                <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="col-sm-12 col-md-3 col-lg-3">
+                    <div class="wrap">
+                        <label for="id_esfera" class="form-control-label">Esfera:</label>
+                        <select class="form-control" name="id_esfera">
+                            <option value="">Selecione uma opção</option>
+                            @foreach ($esferas as $esfera)
+                            <option value="{{$esfera->id}}"
+                                {{ request('id_esfera') == $esfera->id ? 'selected' : ''}}>
+                                {{$esfera->nome}}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-3 col-lg-3">
+                    <div class="wrap">
+                        <label for="id_categoria" class="form-control-label ">Categorias:</label>
+                        <select class="form-control select2" name="id_categoria[]" multiple="multiple">
+                            @foreach ($categorias as $categoria)
+                            <option value="{{$categoria->id}}"
+                                {{ request('id_instituicao') == $categoria->id ? 'selected' : ''}}>
+                                {{$categoria->nome}}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-3 col-lg-3">
+                    <div class="wrap">
+                        <label for="data" class="form-control-label">Data:</label>
+                        <input type="date" class="form-control" name="data" value="{{ request('data') }}">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-3 col-lg-3">
+                    <div class="wrap">
+                        <label for="id_situacao" class="form-control-label ">Situacao:</label>
+                        <select class="form-control" name="id_situacao">
+                            <option value="">Selecione uma opção</option>
+                            @foreach ($situacoes as $situacao)
+                            <option value="{{$situacao->id}}"
+                                {{ request('id_situacao') == $situacao->id ? 'selected' : ''}}>
+                                {{$situacao->nome}}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="wrap">
                         <label for="pesquisa" class="form-control-label">Pesquisa:</label>
                         <input type="text" class="form-control" name="pesquisa" value="{{ request('pesquisa') }}">
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="wrap">
-                        <label for="data" class="form-control-label">Data:</label>
-                        <input type="date" class="form-control" name="data" value="{{ request('data') }}">
-                    </div>
-                </div>
+             
             </div>
 
             <div class="row mt-5">
@@ -98,7 +146,7 @@
                                 <th scope="col" class="text-center">ESFERA</th>
                                 <th scope="col" class="text-center">TIPO</th>
                                 <th scope="col" class="text-center">NUMERO</th>
-                                <th scope="col" class="text-center">DOE</th>
+                                <th scope="col" class="text-center">DIÁRIO ELETRÔNICO</th>
                                 <th scope="col" class="text-center">DATA</th>
                                 <th scope="col" class="text-center">INSTITUIÇÃO</th>
                                 <th scope="col" class="text-center">DESCRIÇÃO</th>

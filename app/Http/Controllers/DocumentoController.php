@@ -12,6 +12,7 @@ use App\Models\TipoDocumento;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\DocumentoRequest;
+use App\Models\Categoria;
 use App\Models\Situacao;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,17 +21,21 @@ class DocumentoController extends Controller
 
     public function index(Request $request): View
     {
+        $categorias = Categoria::where('status', 'Ativo')->get();
         $esferas = Esfera::where('status', 'Ativo')->get();
         $tiposDocumento = TipoDocumento::where('status', 'Ativo')->get();
         $instituicoes = Instituicao::where('status', 'Ativo')->get();
+        $situacoes = Situacao::where('status', 'Ativo')->get();
 
-        $documentos = Documento::buscarDocumento(
-            empty($request->id_tipo_documento) ? 0 : $request->id_tipo_documento,
-            empty($request->id_instituicao) ? 0 : $request->id_instituicao,
-            $request->data,
-            empty($request->pesquisa) ? '' : $request->pesquisa
-        );
-        return view('documento.index', compact('documentos', 'esferas', 'instituicoes', 'tiposDocumento'));
+        $documentos = Documento::buscarDocumento($request);
+        return view('documento.index', compact(
+            'categorias',
+            'esferas',
+            'tiposDocumento',
+            'documentos',
+            'instituicoes',
+            'situacoes'
+        ));
     }
 
     public function create(): View
