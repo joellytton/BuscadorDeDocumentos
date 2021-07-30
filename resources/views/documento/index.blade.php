@@ -66,8 +66,7 @@
                         <select class="form-control" name="id_esfera">
                             <option value="">Selecione uma opção</option>
                             @foreach ($esferas as $esfera)
-                            <option value="{{$esfera->id}}"
-                                {{ request('id_esfera') == $esfera->id ? 'selected' : ''}}>
+                            <option value="{{$esfera->id}}" {{ request('id_esfera') == $esfera->id ? 'selected' : ''}}>
                                 {{$esfera->nome}}
                             </option>
                             @endforeach
@@ -81,7 +80,7 @@
                         <select class="form-control select" name="id_categoria[]" multiple="multiple">
                             @foreach ($categorias as $categoria)
                             <option value="{{$categoria->id}}"
-                                {{ request('id_instituicao') == $categoria->id ? 'selected' : ''}}>
+                                {{in_array($categoria->id, (empty(request('id_categoria')) ? [] : request('id_categoria'))) ? 'selected' : ''}}>
                                 {{$categoria->nome}}
                             </option>
                             @endforeach
@@ -120,7 +119,7 @@
                     </div>
                 </div>
 
-             
+
             </div>
 
             <div class="row mt-5">
@@ -170,7 +169,7 @@
                                         {{@$documento->links->link}}
                                     </a>
                                 </td>
-                                <td class="text-center">{{$documento->status}}</td>
+                                <td class="text-center">{{$documento->situacao->nome}}</td>
                                 <td class="text-center">
                                     <a href="{{route('documento.edit', $documento->id)}}">
                                         <button class="btn btn-success btn-sm mt-2" title="Editar Registro">
