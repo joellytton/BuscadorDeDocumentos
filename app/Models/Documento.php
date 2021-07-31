@@ -33,7 +33,7 @@ class Documento extends Model
 
     public static function buscarDocumento(Request $request): AbstractPaginator
     {
-        $documento = self::with('esfera', 'instituicao', 'links', 'tipoDocumento')
+        $documento = self::with('esfera', 'instituicao', 'links', 'situacao', 'tipoDocumento')
             ->where('status', 'Ativo');
 
         if ($request->id_tipo_documento > 0) {
@@ -56,13 +56,19 @@ class Documento extends Model
             $documento->where('id_situacao', $request->id_situacao);
         }
 
+        if (!empty($request->id_categoria)) {
+            $documento->whereHas('categorias', function ($q) use ($request) {
+                $q->whereIn('categoria.id', $request->id_categoria);
+            })->get();
+        }
+
         $documento->where(function ($q) use ($request) {
             $q->orWhere('numero', 'LIKE', "%$request->pesquisa%")
                 ->orWhere('doe', 'LIKE', "%$request->pesquisa%")
                 ->orWhere('descricao', 'LIKE', "%$request->pesquisa%");
         });
 
-        return $documento->paginate(10);
+        return $documento->orderBy('id', 'desc')->paginate(10);
     }
 
     public function categorias()
@@ -88,6 +94,11 @@ class Documento extends Model
     public function links()
     {
         return $this->hasOne(DocumentoLink::class, 'documento_id');
+    }
+
+    public function situacao()
+    {
+        return $this->belongsTo(Situacao::class, 'id_situacao');
     }
 
     public function tipoDocumento()

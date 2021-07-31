@@ -31,7 +31,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="wrap">
                         <label for="id_tipo_documento" class="form-control-label">Tipo:</label>
-                        <select class="form-control select2" name="id_tipo_documento">
+                        <select class="form-control select" name="id_tipo_documento">
                             <option value="">Selecione uma opção</option>
                             @foreach ($tiposDocumento as $documento)
                             <option value="{{$documento->id}}"
@@ -46,7 +46,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="wrap">
                         <label for="id_instituicao" class="form-control-label">Instituições:</label>
-                        <select class="form-control select2" name="id_instituicao">
+                        <select class="form-control select" name="id_instituicao">
                             <option value="">Selecione uma opção</option>
                             @foreach ($instituicoes as $instituicao)
                             <option value="{{$instituicao->id}}"
@@ -66,8 +66,7 @@
                         <select class="form-control" name="id_esfera">
                             <option value="">Selecione uma opção</option>
                             @foreach ($esferas as $esfera)
-                            <option value="{{$esfera->id}}"
-                                {{ request('id_esfera') == $esfera->id ? 'selected' : ''}}>
+                            <option value="{{$esfera->id}}" {{ request('id_esfera') == $esfera->id ? 'selected' : ''}}>
                                 {{$esfera->nome}}
                             </option>
                             @endforeach
@@ -78,10 +77,10 @@
                 <div class="col-sm-12 col-md-3 col-lg-3">
                     <div class="wrap">
                         <label for="id_categoria" class="form-control-label ">Categorias:</label>
-                        <select class="form-control select2" name="id_categoria[]" multiple="multiple">
+                        <select class="form-control select" name="id_categoria[]" multiple="multiple">
                             @foreach ($categorias as $categoria)
                             <option value="{{$categoria->id}}"
-                                {{ request('id_instituicao') == $categoria->id ? 'selected' : ''}}>
+                                {{in_array($categoria->id, (empty(request('id_categoria')) ? [] : request('id_categoria'))) ? 'selected' : ''}}>
                                 {{$categoria->nome}}
                             </option>
                             @endforeach
@@ -120,7 +119,7 @@
                     </div>
                 </div>
 
-             
+
             </div>
 
             <div class="row mt-5">
@@ -170,7 +169,7 @@
                                         {{@$documento->links->link}}
                                     </a>
                                 </td>
-                                <td class="text-center">{{$documento->status}}</td>
+                                <td class="text-center">{{$documento->situacao->nome}}</td>
                                 <td class="text-center">
                                     <a href="{{route('documento.edit', $documento->id)}}">
                                         <button class="btn btn-success btn-sm mt-2" title="Editar Registro">
@@ -198,6 +197,8 @@
                         'pesquisa' => Request::get('pesquisa'), 
                         'id_tipo_documento' => Request::get('id_tipo_documento'),
                         'id_instituicao' => Request::get('id_instituicao'),
+                        'id_esfera' =>  Request::get('id_esfera'),
+                        'id_categoria'=> Request::get('id_categoria'),
                         'data' => Request::get('data')
                         ])->links() }}
                 </div>

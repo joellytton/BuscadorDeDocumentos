@@ -106,7 +106,7 @@ class DocumentoController extends Controller
         $documento = Documento::findOrFail($id);
         DB::beginTransaction();
 
-        if (!$documento->update(['status' => 'Excluido'])) {
+        if (!$documento->update(['status' => 'Inativo'])) {
             DB::rollBack();
             return redirect()->route('documento.index')->with('error', "Falha ao deletar um documento.");
         }

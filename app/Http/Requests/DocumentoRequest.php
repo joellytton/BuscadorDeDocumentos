@@ -28,6 +28,8 @@ class DocumentoRequest extends FormRequest
             'id_instituicao' => ['required'],
             'data' => ['required'],
             'id_tipo_documento' => ['required'],
+            'categoria_id' => ['required'],
+            'id_situacao' => ['required']
         ];
     }
 
@@ -38,6 +40,8 @@ class DocumentoRequest extends FormRequest
             'id_instituicao.required' => 'O instituição é obrigatório.',
             'data.required' => 'A data é obrigatório.',
             'id_tipo_documento.required' => 'O tipo é obrigatório.',
+            'categoria_id.required' => 'A categoria é obrigatório.',
+            'id_situacao.required' => 'A situação é obrigatório.',
         ];
     }
 }

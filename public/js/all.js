@@ -491,10 +491,9 @@ $(document).ready(function () {
                     results: data
                 };
             },
-            cache: true
         }
     });
 
-    $('.select2').select2();
+    $('.select').select2();
 
 });
