@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -28,6 +30,8 @@ class User extends Authenticatable
 
     protected $hidden = ['senha'];
 
+    public $timestamps = false;
+
     public function getAuthPassword()
     {
         return $this->senha;
@@ -36,5 +40,19 @@ class User extends Authenticatable
     public function getNameAttribute()
     {
         return $this->login;
+    }
+
+    public function setSenhaAttribute($value)
+    {
+        $this->attributes['senha'] = Hash::make($value);
+    }
+
+    public static function buscaPorNome(int $perPage, string $keyword): AbstractPaginator
+    {
+        return self::where('status', 'Ativo')
+            ->where('nome', 'LIKE', "%$keyword%")
+            ->orWhere('login', 'LIKE', "%$keyword%")
+            ->orderBy('id', 'desc')
+            ->paginate($perPage);
     }
 }

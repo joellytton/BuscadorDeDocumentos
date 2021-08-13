@@ -30,6 +30,8 @@ class CategoriaController extends Controller
         $requestData = $request->all();
         $requestData['id_usuario'] = Auth::id();
 
+        DB::beginTransaction();
+
         $categoria = Categoria::create($requestData);
 
         if (!$categoria) {
@@ -54,6 +56,8 @@ class CategoriaController extends Controller
         $requestData = $request->all();
         $requestData['id_usuario'] = Auth::id();
 
+        DB::beginTransaction();
+
         $categoria = Categoria::findOrFail($id);
 
         if (!$categoria->update($requestData)) {
@@ -70,6 +74,8 @@ class CategoriaController extends Controller
     public function destroy(int $id): Response
     {
         $categoria = Categoria::findOrFail($id);
+
+        DB::beginTransaction();
 
         if (!$categoria->update(['status' => 'Inativo'])) {
             DB::rollBack();

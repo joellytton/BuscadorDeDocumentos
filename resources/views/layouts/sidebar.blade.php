@@ -55,6 +55,13 @@
                                     <span>Tipo</span>
                                 </a>
                             </li>
+
+                            <li {!! (Request::is('cadastroBasico/usuario*') ? 'class="active"' :"") !!}>
+                                <a href="{{route("cadastroBasico.usuario.index")}}">
+                                    <i class="ti-folder"></i>
+                                    <span>Usuários</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
