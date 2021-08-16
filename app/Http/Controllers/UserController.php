@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use App\Models\Perfil;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,14 +23,15 @@ class UserController extends Controller
 
     public function create(): View
     {
-        return view('usuario.create');
+        $perfis = Perfil::where('status', 'Ativo')->orderBy('nome')->get();
+        return view('usuario.create', compact('perfis'));
     }
 
     public function store(UserRequest $request): Response
     {
         DB::beginTransaction();
 
-        $usuario =  User::create($request->all());
+        $usuario = User::create($request->all());
         
         if (!$usuario) {
             DB::rollBack();
@@ -45,7 +47,8 @@ class UserController extends Controller
     public function edit($id): View
     {
         $usuario = User::findOrFail($id);
-        return view('usuario.edit', compact('usuario'));
+        $perfis = Perfil::where('status', 'Ativo')->orderBy('nome')->get();
+        return view('usuario.edit', compact('usuario', 'perfis'));
     }
 
     public function update(UserRequest $request, $id)
@@ -65,7 +68,7 @@ class UserController extends Controller
             ->with('success', "Usuário alterado com sucesso.");
     }
 
-    public function destroy($id)
+    public function destroy($id): Response
     {
         $usuario = User::findOrFail($id);
 

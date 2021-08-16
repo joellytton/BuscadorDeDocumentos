@@ -47,6 +47,7 @@
                                 <th class="text-center">ID</th>
                                 <th class="text-center">NOME</th>
                                 <th class="text-center">LOGIN</th>
+                                <th class="text-center">PERFIL</th>
                                 <th class="text-center">AÇÃO</th>
                             </tr>
                         </thead>
@@ -56,6 +57,7 @@
                                 <td class="text-center">{{$usuario->id}}</td>
                                 <td class="text-center">{{$usuario->nome}}</td>
                                 <td class="text-center">{{$usuario->login}}</td>
+                                <td class="text-center">{{$usuario->perfil->nome}}</td>
                                 <td class="text-center">
                                     <a href="{{route('cadastroBasico.usuario.edit', $usuario->id)}}">
                                         <button class="btn btn-success btn-sm mt-2" title="Editar Registro">

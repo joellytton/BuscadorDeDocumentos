@@ -21,11 +21,11 @@ class DocumentoController extends Controller
 
     public function index(Request $request): View
     {
-        $categorias = Categoria::where('status', 'Ativo')->get();
-        $esferas = Esfera::where('status', 'Ativo')->get();
-        $tiposDocumento = TipoDocumento::where('status', 'Ativo')->get();
-        $instituicoes = Instituicao::where('status', 'Ativo')->get();
-        $situacoes = Situacao::where('status', 'Ativo')->get();
+        $categorias = Categoria::where('status', 'Ativo')->orderBy('nome')->get();
+        $esferas = Esfera::where('status', 'Ativo')->orderBy('nome')->get();
+        $tiposDocumento = TipoDocumento::where('status', 'Ativo')->orderBy('nome')->get();
+        $instituicoes = Instituicao::where('status', 'Ativo')->orderBy('nome')->get();
+        $situacoes = Situacao::where('status', 'Ativo')->orderBy('nome')->get();
 
         $documentos = Documento::buscarDocumento($request);
         return view('documento.index', compact(

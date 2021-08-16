@@ -25,6 +25,7 @@ class User extends Authenticatable
         'nome',
         'login',
         'senha',
+        'id_perfil',
         'status'
     ];
 
@@ -49,10 +50,16 @@ class User extends Authenticatable
 
     public static function buscaPorNome(int $perPage, string $keyword): AbstractPaginator
     {
-        return self::where('status', 'Ativo')
-            ->where('nome', 'LIKE', "%$keyword%")
-            ->orWhere('login', 'LIKE', "%$keyword%")
+        return self::with('perfil')
+            ->Where('status', 'Ativo')
+            ->Where('nome', 'LIKE', "%$keyword%")
+            ->Where('login', 'LIKE', "%$keyword%")
             ->orderBy('id', 'desc')
             ->paginate($perPage);
+    }
+
+    public function perfil()
+    {
+        return $this->belongsTo(Perfil::class, 'id_perfil');
     }
 }

@@ -165,8 +165,11 @@
                                 <td class="text-center">{{$documento->instituicao->nome}}</td>
                                 <td class="text-center">{{$documento->descricao}}</td>
                                 <td class="text-center">
-                                    <a href="{{@$documento->links->link}}" target="_black">
-                                        {{@$documento->links->link}}
+
+                                    <a href="{{@$documento->links->link}}" target="_black"
+                                        title="Clique aqui para acessar o link">
+                                        <span class="fa fa-chrome"></span>
+                                        {{-- {{@$documento->links->link}} --}}
                                     </a>
                                 </td>
                                 <td class="text-center">{{$documento->situacao->nome}}</td>
