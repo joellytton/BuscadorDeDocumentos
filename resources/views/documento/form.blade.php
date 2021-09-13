@@ -24,13 +24,18 @@
             <label for="categoria_id" class="form-control-label">Categorias:
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
-            <select name="categoria_id[]" class="form-control" type="text" multiple="multiple" id="categoria-ajax" style="width: 100%">
-                @if (!empty($documentos))
-                    @foreach (@$documentos->categorias as $categoria)
-                    <option value="{{$categoria->id}}" selected>{{$categoria->nome}}</option>
-                    @endforeach
-                @endif
-s            </select>
+            
+            <select class="form-control select" name="categoria_id[]" multiple="multiple">
+                @foreach ($categorias as $categoria)
+                <option value="{{$categoria->id}}"
+                    {{in_array($categoria->id, (empty(old('categoria_id')) ?
+                    (empty($documentos) ? [] : array_column(@$documentos->categorias->toArray(), 'id')) 
+                     : old('categoria_id'))) ? 
+                    'selected' : ''}}>
+                    {{$categoria->nome}}
+                </option>
+                @endforeach
+            </select>
 
             @if ($errors->has('categoria_id'))
             <h6 class="heading text-danger">{{$errors->first('categoria_id')}}</h6>
@@ -73,7 +78,6 @@ s            </select>
                     {{(empty(old('id_instituicao')) ? @$documentos->id_instituicao : old('id_instituicao')) == $instituicao->id ? 'selected' : ''}}>
                     {{$instituicao->nome}}
                 </option>
-
                 @endforeach
             </select>
             @if ($errors->has('id_instituicao'))

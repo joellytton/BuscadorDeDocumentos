@@ -25,7 +25,8 @@ class Categoria extends Model
     
     public static function buscarPorNome(string $nome)
     {
-        $categorias = self::where('nome', 'LIKE', "%" . $nome . "%")->get();
+        $categorias = self::where('status', 'Ativo')
+        ->where('nome', 'LIKE', "%" . $nome . "%")->get();
 
         $response = array();
         foreach ($categorias as $categoria) {
