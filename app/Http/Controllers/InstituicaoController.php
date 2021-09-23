@@ -10,6 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class InstituicaoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('verificar.permissao:1');
+    }
+
     public function index(Request $request): View
     {
         $perPage = 10;
@@ -60,7 +65,7 @@ class InstituicaoController extends Controller
         }
 
         DB::commit();
-        
+
         return redirect()->route('cadastroBasico.instituicao.index')
             ->with('success', "Instituição alterada com sucesso.");
     }
