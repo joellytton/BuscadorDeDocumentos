@@ -18,6 +18,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DocumentoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('verificar.permissao:2', ['except' => [
+            'index',
+        ]]);
+    }
 
     public function index(Request $request): View
     {
