@@ -21,7 +21,8 @@ class UserRequest extends FormRequest
         return [
             'nome' => ['required'],
             'login' => ['required'],
-            'id_perfil' => ['required']
+            'id_perfil' => ['required'],
+            'senha' => ['sometimes', 'required', 'min:6', 'max:255']
         ];
     }
 
