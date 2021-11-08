@@ -494,6 +494,8 @@ $(document).ready(function () {
         }
     });
 
+    $('#categoria-ajax').select2('val', 1);
+
     $('.select').select2();
 
 });

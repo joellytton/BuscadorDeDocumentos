@@ -21,7 +21,8 @@ class UserRequest extends FormRequest
         return [
             'nome' => ['required'],
             'login' => ['required'],
-            'senha' => ['required']
+            'id_perfil' => ['required'],
+            'senha' => ['sometimes', 'required', 'min:6', 'max:255']
         ];
     }
 
@@ -30,7 +31,7 @@ class UserRequest extends FormRequest
         return [
             'nome.required' => 'O nome é obrigatório.',
             'login.required' => 'O login é obrigatório.',
-            'senha.required' => 'A senha é obrigatória.',
+            'id_perfil.required' => 'O perfil é obrigatória.',
         ];
     }
 }

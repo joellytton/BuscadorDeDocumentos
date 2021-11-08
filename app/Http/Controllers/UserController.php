@@ -12,6 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('verificar.permissao:1');
+    }
+
     public function index(Request $request): View
     {
         $perPage = 10;
@@ -32,7 +37,7 @@ class UserController extends Controller
         DB::beginTransaction();
 
         $usuario = User::create($request->all());
-        
+
         if (!$usuario) {
             DB::rollBack();
             return redirect()->route('cadastroBasico.categoria.index')

@@ -30,7 +30,8 @@
                             <span>Documento</span>
                         </a>
                     </li>
-                    
+
+                    @if (verificarPermissao([1]))
                     <li {!! (Request::is('cadastroBasico*') ? 'class="active"' : "" ) !!}>
                         <a href="javascript:void(0)" aria-expanded="true">
                             <i class="feather ft-file-plus"></i>
@@ -64,6 +65,7 @@
                             </li>
                         </ul>
                     </li>
+                    @endif
                 </ul>
             </nav>
         </div>

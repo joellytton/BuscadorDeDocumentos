@@ -13,3 +13,14 @@ if (!function_exists('data_iso_para_br')) {
         return (new DateTime($data))->format('d/m/Y');
     }
 }
+
+if (!function_exists('verificarPermissao')) {
+    function verificarPermissao(?array $arrayPerfil)
+    {
+        //verificar ser o usuario é administrador
+        if (Auth::user()->id_perfil == 1) {
+            return true;
+        }
+        return in_array(Auth::user()->id_perfil, $arrayPerfil);
+    }
+}

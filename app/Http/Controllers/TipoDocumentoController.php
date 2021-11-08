@@ -10,6 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TipoDocumentoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('verificar.permissao:1');
+    }
 
     public function index(Request $request): View
     {

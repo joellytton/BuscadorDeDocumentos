@@ -18,6 +18,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DocumentoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('verificar.permissao:2', ['except' => [
+            'index',
+        ]]);
+    }
 
     public function index(Request $request): View
     {
@@ -40,11 +46,18 @@ class DocumentoController extends Controller
 
     public function create(): View
     {
+        $categorias = Categoria::where('status', 'Ativo')->orderBy('nome')->get();
         $esferas = Esfera::where('status', 'Ativo')->get();
         $instituicoes = Instituicao::where('status', 'Ativo')->get();
         $situacoes = Situacao::where('status', 'Ativo')->get();
         $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
-        return view('documento.create', compact('esferas', 'instituicoes', 'situacoes', 'tipoDocumentos'));
+        return view('documento.create', compact(
+            'categorias',
+            'esferas',
+            'instituicoes',
+            'situacoes',
+            'tipoDocumentos'
+        ));
     }
 
     public function store(DocumentoRequest $request): Response
@@ -68,13 +81,21 @@ class DocumentoController extends Controller
 
     public function edit($id): View
     {
+        $categorias = Categoria::where('status', 'Ativo')->orderBy('nome')->get();
         $documentos = Documento::findOrFail($id);
         $esferas = Esfera::where('status', 'Ativo')->get();
         $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
         $instituicoes = Instituicao::where('status', 'Ativo')->get();
         $situacoes = Situacao::where('status', 'Ativo')->get();
 
-        return view('documento.edit', compact('documentos', 'esferas', 'instituicoes', 'situacoes', 'tipoDocumentos'));
+        return view('documento.edit', compact(
+            'categorias',
+            'documentos',
+            'esferas',
+            'instituicoes',
+            'situacoes',
+            'tipoDocumentos'
+        ));
     }
 
     public function update(DocumentoRequest $request, $id): Response
