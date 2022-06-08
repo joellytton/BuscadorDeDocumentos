@@ -8,7 +8,7 @@ class DocumentoLink extends Model
 {
     protected $table = 'documento_link';
 
-    protected $fillable = ['link', 'documento_id'];
+    protected $fillable = ['link', 'documento_id', 'fisico'];
 
     public $timestamps = false;
 }

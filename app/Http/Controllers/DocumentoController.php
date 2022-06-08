@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Esfera;
+use App\Models\Situacao;
+use App\Models\Categoria;
 use App\Models\Documento;
 use Illuminate\View\View;
 use App\Models\Instituicao;
@@ -10,11 +12,9 @@ use Illuminate\Http\Request;
 use App\Models\DocumentoLink;
 use App\Models\TipoDocumento;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\DocumentoRequest;
-use App\Models\Categoria;
-use App\Models\Situacao;
 use Symfony\Component\HttpFoundation\Response;
+use File;
 
 class DocumentoController extends Controller
 {
@@ -63,17 +63,24 @@ class DocumentoController extends Controller
     public function store(DocumentoRequest $request): Response
     {
         DB::beginTransaction();
-        $requestData = $request->all();
-        $requestData['id_usuario'] = Auth::id();
 
-        $documento = Documento::create($requestData);
+        $documento = Documento::create($request->all());
 
-        if (!$documento || !$documento->links()->create($requestData)) {
+        $filePath = "";
+        if ($request->tipo_documento == 'fisico') {
+            $fileName = time() . '.' . $request->upload->extension();
+            $request->upload->move(public_path('uploads'), $fileName);
+            $filePath = "uploads/" . $fileName;
+        }
+
+        $request->merge(['link' => $request->tipo_documento == 'fisico' ? $filePath : $request->link]);
+
+        if (!$documento || !$documento->links()->create($request->all())) {
             DB::rollBack();
             return redirect()->route('documento.index')->with('error', "Falha ao cadastrar um documento.");
         }
 
-        $documento->categorias()->sync($requestData['categoria_id']);
+        $documento->categorias()->sync($request->categoria_id);
 
         DB::commit();
         return redirect()->route('documento.index')->with('success', "Documento cadastrada com sucesso.");
@@ -103,17 +110,27 @@ class DocumentoController extends Controller
         $documento = Documento::findOrFail($id);
         DB::beginTransaction();
 
-        $requestData = $request->all();
-        $requestData['id_usuario'] = Auth::id();
-
         $link = DocumentoLink::firstOrCreate(
             ['documento_id' => $id],
             ['documento_id' => $id, 'link' => $request->link]
         );
 
-        $documento->categorias()->sync($requestData['categoria_id']);
+        $documento->categorias()->sync($request->categoria_id);
 
-        if (!($documento->update($requestData)) || !($link->update(['link' => $request->link]))) {
+        if (File::exists(public_path($link->link)) && !empty($request->upload)) {
+            File::delete(public_path($link->link));
+        }
+
+        $filePath = "";
+        if ($request->tipo_documento == 'fisico' && !empty($request->upload)) {
+            $fileName = time() . '.' . $request->upload->extension();
+            $request->upload->move(public_path('uploads'), $fileName);
+            $filePath = "uploads/" . $fileName;
+
+            $request->merge(['link' => $request->tipo_documento == 'fisico' ? $filePath : $request->link]);
+        }
+
+        if (!($documento->update($request->all())) || !($link->update(['link' => $request->link]))) {
             DB::rollBack();
             return redirect()->route('documento.index')->with('error', "Falha ao alterar um documento.");
         }

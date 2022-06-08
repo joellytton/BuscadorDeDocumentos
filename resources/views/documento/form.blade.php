@@ -24,11 +24,10 @@
             <label for="categoria_id" class="form-control-label">Categorias:
                 <span class="text-danger" style="font-size: 14px;">*</span>
             </label>
-            
+
             <select class="form-control select" name="categoria_id[]" multiple="multiple">
                 @foreach ($categorias as $categoria)
-                <option value="{{$categoria->id}}"
-                    {{in_array($categoria->id, (empty(old('categoria_id')) ?
+                <option value="{{$categoria->id}}" {{in_array($categoria->id, (empty(old('categoria_id')) ?
                     (empty($documentos) ? [] : array_column(@$documentos->categorias->toArray(), 'id')) 
                      : old('categoria_id'))) ? 
                     'selected' : ''}}>
@@ -149,7 +148,26 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
+        <div class="wrap">
+            <label for="tipo_documento" class="form-control-label">Tipo:
+                <span class="text-danger" style="font-size: 14px;">*</span>
+            </label>
+            <select name="tipo_documento" class="form-control" id="tipoDocumento">
+                <option value="fisico" selected>
+                    Fisico
+                </option>
+                <option value="online" {{(empty(old('tipo_documento')) ? @$documentos->links->fisico  : old('tipo_documento')) == 0 ? 'selected' : '' }}>
+                    Online
+                </option>
+            </select>
+            @if ($errors->has('tipo_documento'))
+            <h6 class="heading text-danger">{{$errors->first('tipo_documento')}}</h6>
+            @endif
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-4 campoLink d-none">
         <div class="wrap">
             <label for="link" class="form-control-label">Link:
                 <span class="text-danger" style="font-size: 14px;">*</span>
@@ -158,6 +176,18 @@
                 value="{{(empty(old('link')) ? @$documentos->links->link  : old('link')) }}">
             @if ($errors->has('link'))
             <h6 class="heading text-danger">{{$errors->first('link')}}</h6>
+            @endif
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-6 mt-4 campoArquivo">
+        <div class="wrap">
+            <label for="upload" class="form-control-label">Arquivo:
+                <span class="text-danger" style="font-size: 14px;">*</span>
+            </label>
+            <input type="file" name="upload" placeholder="Escolha um arquivo" id="upload">
+            @if ($errors->has('upload'))
+            <h6 class="heading text-danger">{{$errors->first('upload')}}</h6>
             @endif
         </div>
     </div>
@@ -182,3 +212,30 @@
         </div>
     </div>
 </div>
+@section('js')
+<script>
+    $("body").on("change", "#tipoDocumento", function (e) {
+        if ($(this).val() == 'fisico') {
+            $("body").find(".campoLink").addClass('d-none');
+            $("body").find(".campoArquivo").removeClass('d-none');
+        }
+
+        if ($(this).val() == 'online') {
+            $("body").find(".campoLink").removeClass('d-none');
+            $("body").find(".campoArquivo").addClass('d-none');
+        }
+    })
+
+    if ($("#tipoDocumento").val() == 'fisico') {
+        $("body").find(".campoLink").addClass('d-none');
+        $("body").find(".campoArquivo").removeClass('d-none');
+    }
+
+    if ($("#tipoDocumento").val() == 'online') {
+        $("body").find(".campoLink").removeClass('d-none');
+        $("body").find(".campoArquivo").addClass('d-none');
+    }
+
+
+</script>
+@endsection

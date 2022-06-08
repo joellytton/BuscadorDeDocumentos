@@ -2,25 +2,24 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DocumentoRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'fisico' => $this->tipo_documento == 'fisico' ? 1 : 0,
+            'id_usuario' => Auth::id()
+        ]);
+    }
+
     public function rules()
     {
         return [
@@ -29,7 +28,8 @@ class DocumentoRequest extends FormRequest
             'data' => ['required'],
             'id_tipo_documento' => ['required'],
             'categoria_id' => ['required'],
-            'id_situacao' => ['required']
+            'id_situacao' => ['required'],
+            'upload' => ['max:2048'],
         ];
     }
 
@@ -42,6 +42,7 @@ class DocumentoRequest extends FormRequest
             'id_tipo_documento.required' => 'O tipo é obrigatório.',
             'categoria_id.required' => 'A categoria é obrigatório.',
             'id_situacao.required' => 'A situação é obrigatório.',
+            'upload.max' => 'O tamanho do arquivo é maior que o permitido (2M).',
         ];
     }
 }

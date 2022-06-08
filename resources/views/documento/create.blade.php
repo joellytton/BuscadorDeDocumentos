@@ -15,7 +15,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card_title">Cadastrar Documento</h4>
-                <form action="{{route('documento.store')}}" method="POST">
+                <form action="{{route('documento.store')}}" enctype="multipart/form-data" method="POST">
                     @csrf
                     @include('documento.form')
                 </form>

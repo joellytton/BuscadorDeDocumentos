@@ -15,7 +15,8 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card_title">Editar Documento</h4>
-                <form action="{{route('documento.update', $documentos->id)}}" method="POST">
+                <form action="{{route('documento.update', $documentos->id)}}" enctype="multipart/form-data"
+                    method="POST">
                     {{ method_field('PATCH') }}
                     {{ csrf_field() }}
                     @include('documento.form')

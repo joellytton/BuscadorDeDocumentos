@@ -165,12 +165,18 @@
                                 <td class="text-center">{{$documento->instituicao->nome}}</td>
                                 <td class="text-center">{{$documento->descricao}}</td>
                                 <td class="text-center">
-
+                                    @if (@$documento->links->fisico == 1)
+                                    <a href="{{(@$documento->links->link)}}" target="_black"
+                                        title="Clique aqui para acessar o link">
+                                        <span class="fa fa-chrome"></span>
+                                    </a>
+                                    @else
                                     <a href="{{@$documento->links->link}}" target="_black"
                                         title="Clique aqui para acessar o link">
                                         <span class="fa fa-chrome"></span>
-                                        {{-- {{@$documento->links->link}} --}}
                                     </a>
+                                    @endif
+
                                 </td>
                                 <td class="text-center">{{$documento->situacao->nome}}</td>
                                 <td class="text-center">
