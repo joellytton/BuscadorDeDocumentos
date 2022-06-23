@@ -29,7 +29,7 @@ class DocumentoRequest extends FormRequest
             'id_tipo_documento' => ['required'],
             'categoria_id' => ['required'],
             'id_situacao' => ['required'],
-            'upload' => ['max:2048'],
+            'upload' => ['max:10240'],
         ];
     }
 
@@ -42,7 +42,7 @@ class DocumentoRequest extends FormRequest
             'id_tipo_documento.required' => 'O tipo é obrigatório.',
             'categoria_id.required' => 'A categoria é obrigatório.',
             'id_situacao.required' => 'A situação é obrigatório.',
-            'upload.max' => 'O tamanho do arquivo é maior que o permitido (2M).',
+            'upload.max' => 'O tamanho do arquivo é maior que o permitido (10M).',
         ];
     }
 }
