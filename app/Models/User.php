@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Pagination\AbstractPaginator;
@@ -22,6 +23,7 @@ class User extends Authenticatable
     protected $table = 'usuario';
 
     protected $fillable = [
+        'data_expirar',
         'nome',
         'login',
         'senha',
@@ -46,6 +48,11 @@ class User extends Authenticatable
     public function setSenhaAttribute($value)
     {
         $this->attributes['senha'] = Hash::make($value);
+    }
+
+    public function setDataExpirarAttribute($value)
+    {
+        $this->attributes['data_expirar'] = Carbon::parse($value)->format('Y-m-d');
     }
 
     public static function buscaPorNome(int $perPage, string $keyword): AbstractPaginator

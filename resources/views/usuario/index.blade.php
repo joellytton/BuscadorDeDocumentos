@@ -65,7 +65,6 @@
                                                 style="color: black"></i>
                                         </button>
                                     </a>
-
                                     <form action="{{route('cadastroBasico.usuario.destroy', $usuario->id)}}"
                                         method="POST" id="formLaravel{{$usuario->id}}" style="display:inline;">
                                         @method('DELETE')

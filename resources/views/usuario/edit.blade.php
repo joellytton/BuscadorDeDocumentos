@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6 mt-4">
+                        <div class="col-sm-12 col-md-4 col-lg-4 mt-4">
                             <div class="wrap">
                                 <label for="login" class="form-control-label">Login:
                                     <span class="text-danger" style="font-size: 14px;">*</span>
@@ -63,6 +63,28 @@
                                     value="{{@$usuario->login}}">
                                 @if ($errors->has('nome'))
                                 <h6 class="heading text-danger">{{$errors->first('login')}}</h6>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-4 col-lg-4 mt-4">
+                            <div class="wrap">
+                                <label for="senha" class="form-control-label">Senha:
+                                    <span class="text-danger" style="font-size: 14px;">*</span>
+                                </label>
+                                <input type="password" class="form-control focus" name="senha" placeholder="Senha">
+                                @if ($errors->has('senha'))
+                                <h6 class="heading text-danger">{{$errors->first('senha')}}</h6>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-4 col-lg-4 mt-4">
+                            <div class="wrap">
+                                <label for="data_expirar" class="form-control-label">Expirar:</label>
+                                <input type="date" class="form-control focus" name="data_expirar" placeholder="Expirar" value="{{@$usuario->data_expirar}}">
+                                @if ($errors->has('data_expirar'))
+                                <h6 class="heading text-danger">{{$errors->first('data_expirar')}}</h6>
                                 @endif
                             </div>
                         </div>
