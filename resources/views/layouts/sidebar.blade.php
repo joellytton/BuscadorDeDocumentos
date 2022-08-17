@@ -31,6 +31,13 @@
                         </a>
                     </li>
 
+                    <li {!! (Request::is('recomendacao*') ? 'class="active"' : "" ) !!}>
+                        <a href="{{route("documento.index")}}">
+                            <i class="ti-folder"></i>
+                            <span>Recomendações</span>
+                        </a>
+                    </li>
+
                     @if (verificarPermissao([1]))
                     <li {!! (Request::is('cadastroBasico*') ? 'class="active"' : "" ) !!}>
                         <a href="javascript:void(0)" aria-expanded="true">

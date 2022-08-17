@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\InstituicaoController;
+use App\Http\Controllers\RecomendacaoController;
 use App\Http\Controllers\Selects\CategoriaPorNome;
 use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\UserController;
@@ -22,6 +23,8 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::post('/empresas/buscar-por/nome', CategoriaPorNome::class);
+
+    Route::resource('/recomendacao', RecomendacaoController::class);
 });
 
 
