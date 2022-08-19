@@ -32,7 +32,7 @@
                     </li>
 
                     <li {!! (Request::is('recomendacao*') ? 'class="active"' : "" ) !!}>
-                        <a href="{{route("documento.index")}}">
+                        <a href="{{route("recomendacao.index")}}">
                             <i class="ti-folder"></i>
                             <span>Recomendações</span>
                         </a>

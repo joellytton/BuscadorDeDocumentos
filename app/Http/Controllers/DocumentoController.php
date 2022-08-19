@@ -90,10 +90,10 @@ class DocumentoController extends Controller
     {
         $categorias = Categoria::where('status', 'Ativo')->orderBy('nome')->get();
         $documentos = Documento::findOrFail($id);
-        $esferas = Esfera::where('status', 'Ativo')->get();
-        $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
-        $instituicoes = Instituicao::where('status', 'Ativo')->get();
-        $situacoes = Situacao::where('status', 'Ativo')->get();
+        $esferas = Esfera::where('status', 'Ativo')->orderBy('nome')->get();
+        $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->orderBy('nome')->get();
+        $instituicoes = Instituicao::where('status', 'Ativo')->orderBy('nome')->get();
+        $situacoes = Situacao::where('status', 'Ativo')->orderBy('nome')->get();
 
         return view('documento.edit', compact(
             'categorias',

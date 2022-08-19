@@ -33,7 +33,6 @@ class UserRequest extends FormRequest
                 'login' => ['required'],
                 'id_perfil' => ['required'],
                 'senha' => ['min:6', 'max:255'],
-                'data_expirar' => ['required']
             ];
         }
 

@@ -18,7 +18,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return view('auth.login');
+        return view('auth.login2');
     }
 
     /**
@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-        
+
         if (Carbon::now()->gte(auth()->user()->data_expirar) && auth()->user()->data_expirar != null) {
             Auth::guard('web')->logout();
 
@@ -42,7 +42,8 @@ class AuthenticatedSessionController extends Controller
 
             return redirect('/')
                 ->withInput($request->except('password'))
-                ->withErrors(['msg' => 'Sua conta expirou. Entre em contato com seu administrador.']);
+                ->withErrors(['msg' => 'Sua senha expirou, entre em contato com o administrador
+                 lucianosousa2004@gmail.com']);
         }
 
         return redirect()->intended(RouteServiceProvider::HOME);
