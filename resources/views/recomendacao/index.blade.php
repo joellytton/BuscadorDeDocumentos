@@ -59,9 +59,14 @@
                                 <td class="text-center">{{$recomendacao->achado}}</td>
                                 <td class="text-center">{{$recomendacao->recomendacao}}</td>
                                 <td class="text-center">{{$recomendacao->base_legal}}</td>
-                                <td class="text-center"></td>
                                 <td class="text-center">
-                                    <a href="{{route('documento.edit', $recomendacao->id)}}">
+                                    <a href="{{@$recomendacao->links->link}}" target="_black"
+                                        title="Clique aqui para acessar o link">
+                                        <span class="fa fa-chrome"></span>
+                                    </a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{route('recomendacao.edit', $recomendacao->id)}}">
                                         <button class="btn btn-success btn-sm mt-2" title="Editar Registro">
                                             <i class="ti-pencil" data-toggle="tooltip" title="Editar Registro"
                                                 style="color: black"></i>

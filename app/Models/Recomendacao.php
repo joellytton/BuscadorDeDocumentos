@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Http\Request;
+use App\Models\RecomendacaoLink;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -42,5 +43,10 @@ class Recomendacao extends Model
     public function usuario()
     {
         return $this->belongsTo(User::class, 'id_usuario');
+    }
+
+    public function links()
+    {
+        return $this->hasOne(RecomendacaoLink::class, 'recomendacao_id');
     }
 }

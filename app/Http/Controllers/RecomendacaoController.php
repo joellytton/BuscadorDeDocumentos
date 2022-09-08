@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\View\View;
 use App\Models\Recomendacao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\RecomendacaoRequest;
+use App\Models\RecomendacaoLink;
 use Symfony\Component\HttpFoundation\Response;
 
 class RecomendacaoController extends Controller
@@ -15,7 +18,7 @@ class RecomendacaoController extends Controller
             'index',
         ]]);
     }
-    
+
     public function index(Request $request): View
     {
         $recomendacoes = Recomendacao::buscarRecomendacao($request);
@@ -27,11 +30,12 @@ class RecomendacaoController extends Controller
         return view("recomendacao.create");
     }
 
-    public function store(Request $request): Response
+    public function store(RecomendacaoRequest $request): Response
     {
         try {
             DB::beginTransaction();
-            Recomendacao::create($request->all());
+            $recomendacao = Recomendacao::create($request->all());
+            $recomendacao->links()->create($request->all());
             DB::commit();
             return redirect()->route('recomendacao.index')->with('success', 'Recomendação cadastrada com sucesso!');
         } catch (\Throwable $th) {
@@ -46,17 +50,22 @@ class RecomendacaoController extends Controller
         return view('recomendacao.edit', compact('recomendacao'));
     }
 
-    public function update(Request $request, $id):  Response
+    public function update(RecomendacaoRequest $request, $id): Response
     {
         try {
             DB::beginTransaction();
             $recomendacao = Recomendacao::findOrFail($id);
+            $link = RecomendacaoLink::firstOrCreate(
+                ['recomendacao_id' => $id],
+                ['recomendacao_id' => $id, 'link' => $request->link]
+            );
             $recomendacao->update($request->all());
+            $link->update(['link' => $request->link]);
             DB::commit();
-            return redirect('recomendacao.index')->with('success', "Recomendação alterada com sucesso.");
+            return redirect()->route('recomendacao.index')->with('success', "Recomendação alterada com sucesso.");
         } catch (\Throwable $th) {
             DB::rollback();
-            return redirect('recomendacao.index')->with('error', "Falha ao alterar uma recomendação.");
+            return redirect()->route('recomendacao.index')->with('error', "Falha ao alterar uma recomendação.");
         }
     }
 
