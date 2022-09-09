@@ -32,9 +32,9 @@ class Recomendacao extends Model
         $recomendacao = self::with('usuario') ->where('status', 'Ativo');
 
         $recomendacao->where(function ($q) use ($request) {
-            $q->orWhere('achado', 'LIKE', "%$request->pesquisa%")
-                ->orWhere('recomendacao', 'LIKE', "%$request->pesquisa%")
-                ->orWhere('base_legal', 'LIKE', "%$request->pesquisa%");
+            $q->orWhere('achado', 'LIKE', "%$request->search%")
+                ->orWhere('recomendacao', 'LIKE', "%$request->search%")
+                ->orWhere('base_legal', 'LIKE', "%$request->search%");
         });
 
         return $recomendacao->orderBy('id', 'desc')->paginate(10);

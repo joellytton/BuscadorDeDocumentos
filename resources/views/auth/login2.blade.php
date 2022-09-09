@@ -258,7 +258,7 @@
 
                 <form class="login-form" method="POST" action="{{ route('login') }}">
                     @csrf
-                    <span class="login-form-title">J@SPER <br> Sistema Cooperativo de Conhecimento Legal</span>
+                    <span class="login-form-title">J@SPE <br> Sistema Cooperativo de Conhecimento Legal</span>
 
                     @if ($errors->any())
                     <ul class="mb-3 list-disc list-inside text-sm text-center text-red-600" style="margin-top: -34px;">
