@@ -37,9 +37,7 @@
 <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
         <div class="wrap">
-            <label for="link" class="form-control-label">Link:
-                <span class="text-danger" style="font-size: 14px;">*</span>
-            </label>
+            <label for="link" class="form-control-label">Link:</label>
             <input type="text" class="form-control" name="link"
                 value="{{(empty(old('link')) ? @$recomendacao->links->link  : old('link')) }}">
             @if ($errors->has('link'))

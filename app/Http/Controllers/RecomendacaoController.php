@@ -35,7 +35,11 @@ class RecomendacaoController extends Controller
         try {
             DB::beginTransaction();
             $recomendacao = Recomendacao::create($request->all());
-            $recomendacao->links()->create($request->all());
+
+            if (!empty($request->link)) {
+                $recomendacao->links()->create($request->all());
+            }
+
             DB::commit();
             return redirect()->route('recomendacao.index')->with('success', 'Recomendação cadastrada com sucesso!');
         } catch (\Throwable $th) {
@@ -54,13 +58,17 @@ class RecomendacaoController extends Controller
     {
         try {
             DB::beginTransaction();
-            $recomendacao = Recomendacao::findOrFail($id);
-            $link = RecomendacaoLink::firstOrCreate(
-                ['recomendacao_id' => $id],
-                ['recomendacao_id' => $id, 'link' => $request->link]
-            );
+            $recomendacao = Recomendacao::findOrFail($id);  
             $recomendacao->update($request->all());
-            $link->update(['link' => $request->link]);
+
+            if (!empty($request->link)) {
+                $link = RecomendacaoLink::firstOrCreate(
+                    ['recomendacao_id' => $id],
+                    ['recomendacao_id' => $id, 'link' => $request->link]
+                ); 
+                $link->update(['link' => $request->link]);
+            }
+           
             DB::commit();
             return redirect()->route('recomendacao.index')->with('success', "Recomendação alterada com sucesso.");
         } catch (\Throwable $th) {

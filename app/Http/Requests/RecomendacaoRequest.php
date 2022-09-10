@@ -25,7 +25,6 @@ class RecomendacaoRequest extends FormRequest
             'achado' => ['required'],
             'recomendacao' => ['required'],
             'base_legal' => ['required'],
-            'link' => ['required'],
         ];
     }
 
@@ -35,7 +34,6 @@ class RecomendacaoRequest extends FormRequest
             'achado.required' => 'Os achados são obrigatório.',
             'recomendacao.required' => 'A recomendação é obrigatória.',
             'base_legal.required' => 'A base legal é obrigatória.',
-            'link.required' => 'O link é obrigatório.',
         ];
     }
 }
