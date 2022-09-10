@@ -156,7 +156,8 @@
                         </thead>
                         <tbody>
                             @foreach ($documentos as $documento)
-                            <tr scope="row">
+                            <tr scope="row"
+                                style="{{$documento->situacao->nome == 'Inativo' ? 'text-decoration: line-through;' : ''}}">
                                 <td class="text-center">{{@$documento->esfera->nome}}</td>
                                 <td class="text-center">{{$documento->tipoDocumento->nome}}</td>
                                 <td class="text-center">{{$documento->numero}}</td>
