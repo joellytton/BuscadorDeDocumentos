@@ -111,7 +111,7 @@
                 </div>
             </div>
 
-            <div class="row mt-5">
+            <div class="row mt-2">
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="wrap">
                         <label for="pesquisa" class="form-control-label">Pesquisa:</label>
@@ -122,7 +122,7 @@
 
             </div>
 
-            <div class="row mt-5">
+            <div class="row mt-2">
                 <div class="col-sm-12 col-md-12 col-lg-12 text-center mt-4">
                     <button type="submit" class="btn btn-secondary btn-fixed-w mt-2">
                         Pesquisar
