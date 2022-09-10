@@ -31,7 +31,7 @@ mix.styles([
     'public/assets/css/metisMenu.css',
     'public/assets/css/slicknav.min.css',
     'public/assets/css/feather.css',
-    'node_modules/toastr/build/toastr.css',
+    // 'node_modules/toastr/build/toastr.css',
     'public/assets/vendors/sweetalert2/css/sweetalert2.min.css',
     'public/assets/vendors/select2/css/select2.min.css',
     'resources/css/style.css'
@@ -47,7 +47,7 @@ mix.combine([
     'public/assets/js/jquery.slicknav.min.js',
     'public/assets/js/modernizr-2.8.3.min.js',
     'public/assets/js/main.js',
-    'node_modules/toastr/build/toastr.min.js',
+    // 'node_modules/toastr/build/toastr.min.js',
     'public/assets/vendors/sweetalert2/js/sweetalert2.all.min.js',
     'public/assets/vendors/jquery-mask/jquery.mask.min.js',
     'resources/js/delete.js',

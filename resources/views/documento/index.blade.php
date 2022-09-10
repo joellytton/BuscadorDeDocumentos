@@ -156,15 +156,28 @@
                         </thead>
                         <tbody>
                             @foreach ($documentos as $documento)
-                            <tr scope="row"
-                                style="{{$documento->situacao->nome == 'Inativo' ? 'text-decoration: line-through;' : ''}}">
-                                <td class="text-center">{{@$documento->esfera->nome}}</td>
-                                <td class="text-center">{{$documento->tipoDocumento->nome}}</td>
-                                <td class="text-center">{{$documento->numero}}</td>
-                                <td class="text-center">{{$documento->doe}}</td>
-                                <td class="text-center">{{data_iso_para_br($documento->data)}}</td>
-                                <td class="text-center">{{$documento->instituicao->nome}}</td>
-                                <td class="text-center">{{$documento->descricao}}</td>
+                            <tr scope="row">
+                                <td class="text-center {{$documento->situacao->nome == 'Inativo' ? 'inativo' : ''}}">
+                                    {{@$documento->esfera->nome}}
+                                </td>
+                                <td class="text-center {{$documento->situacao->nome == 'Inativo' ? 'inativo' : ''}}">
+                                    {{$documento->tipoDocumento->nome}}
+                                </td>
+                                <td class="text-center {{$documento->situacao->nome == 'Inativo' ? 'inativo' : ''}}">
+                                    {{$documento->numero}}
+                                </td>
+                                <td class="text-center {{$documento->situacao->nome == 'Inativo' ? 'inativo' : ''}}">
+                                    {{$documento->doe}}
+                                </td>
+                                <td class="text-center {{$documento->situacao->nome == 'Inativo' ? 'inativo' : ''}}">
+                                    {{data_iso_para_br($documento->data)}}
+                                </td>
+                                <td class="text-center {{$documento->situacao->nome == 'Inativo' ? 'inativo' : ''}}">
+                                    {{$documento->instituicao->nome}}
+                                </td>
+                                <td class="text-center {{$documento->situacao->nome == 'Inativo' ? 'inativo' : ''}}">
+                                    {{$documento->descricao}}
+                                </td>
                                 <td class="text-center">
                                     @if (@$documento->links->fisico == 1)
                                     <a href="{{(@$documento->links->link)}}" target="_black"

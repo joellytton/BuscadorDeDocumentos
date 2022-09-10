@@ -8087,3 +8087,7 @@ you can use the generic selector below, but it's slower:
     height: 37px;
     border: 1px solid #ced4da;
 }
+
+.inativo {
+    text-decoration: line-through;
+}
