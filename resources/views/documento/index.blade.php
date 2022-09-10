@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <div class="row mt-5">
+            <div class="row mt-2">
                 <div class="col-sm-12 col-md-3 col-lg-3">
                     <div class="wrap">
                         <label for="id_esfera" class="form-control-label">Esfera:</label>
