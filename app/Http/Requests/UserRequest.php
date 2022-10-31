@@ -33,6 +33,8 @@ class UserRequest extends FormRequest
                 'login' => ['required'],
                 'id_perfil' => ['required'],
                 'senha' => ['min:6', 'max:255'],
+                'email' => ['required', 'email'],
+                'telefone' => ['nullable', 'string'],
             ];
         }
 
@@ -41,7 +43,9 @@ class UserRequest extends FormRequest
             'login' => ['required'],
             'id_perfil' => ['required'],
             'senha' => ['sometimes', 'required', 'min:6', 'max:255'],
-            'data_expirar' => ['required']
+            'data_expirar' => ['required'],
+            'email' => ['required', 'email'],
+            'telefone' => ['nullable', 'string'],
         ];
     }
 
@@ -55,6 +59,9 @@ class UserRequest extends FormRequest
             'senha.min' => 'A senha deve ter no mínimo 6 caracteres.',
             'senha.max' => 'A senha deve ter no máximo 255 caracteres.',
             'data_expirar.required' => 'A data de expiração é obrigatória.',
+            'email.required' => 'O email é obrigatório.',
+            'email.email' => 'O email é inválido.',
+            'telefone.string' => 'O telefone é inválido.'
         ];
     }
 }

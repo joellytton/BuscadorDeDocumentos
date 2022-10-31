@@ -28,6 +28,8 @@ class User extends Authenticatable
         'login',
         'senha',
         'id_perfil',
+        'telefone',
+        'email',
         'status'
     ];
 
