@@ -21,6 +21,7 @@ class VerificarPermissao
         if (Auth::user()->id_perfil == 1) {
             return $next($request);
         }
+        
         $arrayPerfil = explode(',', $arrayPerfil);
         if (!in_array(Auth::user()->id_perfil, $arrayPerfil)) {
             return redirect()->route('dashboard')->with('alert', "Você não tem permissão para essa ação.");

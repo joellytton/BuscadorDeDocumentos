@@ -9,18 +9,6 @@
     <li class="breadcrumb-item active"><a>Documento</a></li>
 </ol>
 
-{{-- <div class="row">
-    <div class="col-lg-12 text-right">
-        <div class="card">
-            <div class="card-body">
-                <a class="btn btn-primary btn-md" href="{{route('documento.create')}}" role="button">
-                    Novo Documento
-                </a>
-            </div>
-        </div>
-    </div>
-</div> --}}
-
 <div class="card">
     <div class="card-body">
         <div class="text-right">

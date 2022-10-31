@@ -51,7 +51,7 @@
                             </div>
                             <div class="icon_specs">
                                 <p>Usuários</p>
-                                <span>20</span>
+                                <span>{{$quantidadeUsuariosAtivoDoSistema}}</span>
                             </div>
                         </div>
                     </div>

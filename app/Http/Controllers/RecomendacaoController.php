@@ -58,14 +58,14 @@ class RecomendacaoController extends Controller
     {
         try {
             DB::beginTransaction();
-            $recomendacao = Recomendacao::findOrFail($id);  
+            $recomendacao = Recomendacao::findOrFail($id);
             $recomendacao->update($request->all());
 
             if (!empty($request->link)) {
                 $link = RecomendacaoLink::firstOrCreate(
                     ['recomendacao_id' => $id],
                     ['recomendacao_id' => $id, 'link' => $request->link]
-                ); 
+                );
                 $link->update(['link' => $request->link]);
             }
            
