@@ -29,7 +29,7 @@ Dashboard
     <div class="col-lg-8 stretched_card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card_title mb-2">Top 10 Documentos por Categoria</h4>
+                <h4 class="card_title mb-2">Top 5 Documentos por Categoria</h4>
                 <div class="chart_container">
                     <canvas id="bar_chart" class="mt-4" style="height: 500px;"></canvas>
                 </div>
