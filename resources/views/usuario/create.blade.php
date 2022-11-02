@@ -96,9 +96,7 @@
 
                         <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
                             <div class="wrap">
-                                <label for="telefone" class="form-control-label">Telefone:
-                                    <span class="text-danger" style="font-size: 14px;">*</span>
-                                </label>
+                                <label for="telefone" class="form-control-label">Telefone:</label>
                                 <input type="text" class="form-control focus" name="telefone" placeholder="Telefone"
                                     value="{{old('telefone')}}" data-mask="(00)999999999">
                                 @if ($errors->has('telefone'))
@@ -109,9 +107,7 @@
 
                         <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
                             <div class="wrap">
-                                <label for="data_expirar" class="form-control-label">Expirar:
-                                    <span class="text-danger" style="font-size: 14px;">*</span>
-                                </label>
+                                <label for="data_expirar" class="form-control-label">Expirar:</label>
                                 <input type="date" class="form-control focus" name="data_expirar" placeholder="Expirar"
                                     value="{{old('data_expirar')}}">
                                 @if ($errors->has('data_expirar'))

@@ -52,11 +52,6 @@ class User extends Authenticatable
         $this->attributes['senha'] = Hash::make($value);
     }
 
-    public function setDataExpirarAttribute($value)
-    {
-        $this->attributes['data_expirar'] = Carbon::parse($value)->format('Y-m-d');
-    }
-
     public static function buscaPorNome(int $perPage, string $keyword): AbstractPaginator
     {
         return self::with('perfil')
