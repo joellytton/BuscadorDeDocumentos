@@ -253,7 +253,7 @@
 
             <div class="wrap-login">
                 <div class="login-pic" data-tilt>
-                    <img src="https://colorlib.com/etc/lf/Login_v1/images/img-01.png" alt="IMG">
+                    <img src="{{ asset('images/login-bg-2.png')}}" alt="IMG">
                 </div>
 
                 <form class="login-form" method="POST" action="{{ route('login') }}">

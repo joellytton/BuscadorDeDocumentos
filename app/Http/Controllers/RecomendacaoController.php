@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
 use Illuminate\View\View;
 use App\Models\Recomendacao;
 use Illuminate\Http\Request;
+use App\Models\RecomendacaoLink;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\RecomendacaoRequest;
-use App\Models\RecomendacaoLink;
 use Symfony\Component\HttpFoundation\Response;
 
 class RecomendacaoController extends Controller
@@ -22,12 +23,15 @@ class RecomendacaoController extends Controller
     public function index(Request $request): View
     {
         $recomendacoes = Recomendacao::buscarRecomendacao($request);
-        return view("recomendacao.index", compact('recomendacoes'));
+        $array = array('lastname', 'email', 'phone');
+        // $recomendacoes->get(0)->categorias->get(1)->nome);
+        return view("recomendacao.index", compact('recomendacoes', 'array'));
     }
 
     public function create(): View
     {
-        return view("recomendacao.create");
+        $categorias = Categoria::where('status', 'Ativo')->orderBy('nome')->get();
+        return view("recomendacao.create", compact('categorias'));
     }
 
     public function store(RecomendacaoRequest $request): Response
@@ -40,6 +44,8 @@ class RecomendacaoController extends Controller
                 $recomendacao->links()->create($request->all());
             }
 
+            $recomendacao->categorias()->sync($request->categoria_id);
+
             DB::commit();
             return redirect()->route('recomendacao.index')->with('success', 'Recomendação cadastrada com sucesso!');
         } catch (\Throwable $th) {
@@ -51,7 +57,8 @@ class RecomendacaoController extends Controller
     public function edit($id): View
     {
         $recomendacao = Recomendacao::find($id);
-        return view('recomendacao.edit', compact('recomendacao'));
+        $categorias = Categoria::where('status', 'Ativo')->orderBy('nome')->get();
+        return view('recomendacao.edit', compact('recomendacao', 'categorias'));
     }
 
     public function update(RecomendacaoRequest $request, $id): Response
@@ -68,6 +75,8 @@ class RecomendacaoController extends Controller
                 );
                 $link->update(['link' => $request->link]);
             }
+
+            $recomendacao->categorias()->sync($request->categoria_id);
            
             DB::commit();
             return redirect()->route('recomendacao.index')->with('success', "Recomendação alterada com sucesso.");

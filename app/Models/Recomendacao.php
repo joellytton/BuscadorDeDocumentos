@@ -29,7 +29,7 @@ class Recomendacao extends Model
 
     public static function buscarRecomendacao(Request $request): AbstractPaginator
     {
-        $recomendacao = self::with('usuario') ->where('status', 'Ativo');
+        $recomendacao = self::with('usuario', 'categorias') ->where('status', 'Ativo');
 
         $recomendacao->where(function ($q) use ($request) {
             $q->orWhere('achado', 'LIKE', "%$request->search%")
@@ -48,5 +48,15 @@ class Recomendacao extends Model
     public function links()
     {
         return $this->hasOne(RecomendacaoLink::class, 'recomendacao_id');
+    }
+
+    public function categorias()
+    {
+        return $this->belongsToMany(
+            Categoria::class,
+            'categoria_recomendacao',
+            'id_recomendacao',
+            'id_categoria'
+        );
     }
 }

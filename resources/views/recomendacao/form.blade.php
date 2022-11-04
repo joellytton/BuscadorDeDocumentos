@@ -37,6 +37,31 @@
 <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
         <div class="wrap">
+            <label for="categoria_id" class="form-control-label">Categorias:
+                <span class="text-danger" style="font-size: 14px;">*</span>
+            </label>
+
+            <select class="form-control select" name="categoria_id[]" multiple="multiple">
+                @foreach ($categorias as $categoria)
+                <option value="{{$categoria->id}}" {{in_array($categoria->id, (empty(old('categoria_id')) ?
+                    (empty($recomendacao) ? [] : array_column(@$recomendacao->categorias->toArray(), 'id')) 
+                     : old('categoria_id'))) ? 
+                    'selected' : ''}}>
+                    {{$categoria->nome}}
+                </option>
+                @endforeach
+            </select>
+
+            @if ($errors->has('categoria_id'))
+            <h6 class="heading text-danger">{{$errors->first('categoria_id')}}</h6>
+            @endif
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+        <div class="wrap">
             <label for="link" class="form-control-label">Link:</label>
             <input type="text" class="form-control" name="link"
                 value="{{(empty(old('link')) ? @$recomendacao->links->link  : old('link')) }}">

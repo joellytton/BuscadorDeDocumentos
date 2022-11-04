@@ -48,6 +48,7 @@
                                 <th scope="col" class="text-center">ACHADO</th>
                                 <th scope="col" class="text-center">RECOMENDAÇÃO</th>
                                 <th scope="col" class="text-center">BASE LEGAL</th>
+                                <th scope="col" class="text-center">CATEGORIAS</th>
                                 <th scope="col" class="text-center">LINK</th>
                                 <th scope="col" class="text-center">AÇÃO</th>
                             </tr>
@@ -59,6 +60,7 @@
                                 <td class="text-center">{{$recomendacao->achado}}</td>
                                 <td class="text-center">{{$recomendacao->recomendacao}}</td>
                                 <td class="text-center">{{$recomendacao->base_legal}}</td>
+                                <td class="text-center">{{$recomendacao->categorias->implode('nome', ', ')}}</td>
                                 <td class="text-center">
                                     <a href="{{@$recomendacao->links->link}}" target="_black"
                                         title="Clique aqui para acessar o link">
