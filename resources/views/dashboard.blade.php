@@ -121,13 +121,18 @@ Dashboard
                     }]
                 },
                 options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
                     scales: {
                         yAxes: [{
                              ticks: {
                                 beginAtZero: true
                             }
                         }]
-                    }
+                    },
+                    legend: {
+                        display: false
+                    },
                 }
             });
         }
