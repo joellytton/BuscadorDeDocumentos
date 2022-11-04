@@ -23,7 +23,12 @@ class HomeController extends Controller
             ->orderBy('count', 'desc')
             ->limit(5)
             ->pluck('nome');
-        $quantidadeDeDocumentoPorCategoria = Documento::join('categoria_documento', 'categoria_documento.id_documento', '=', 'documento.id')
+        $quantidadeDeDocumentoPorCategoria = Documento::join(
+            'categoria_documento',
+            'categoria_documento.id_documento',
+            '=',
+            'documento.id'
+        )
             ->join('categoria', 'categoria.id', '=', 'categoria_documento.id_categoria')
             ->where('documento.status', 1)
             ->select(DB::raw("COUNT(*) as count"), 'categoria.nome')
