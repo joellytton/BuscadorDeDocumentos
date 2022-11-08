@@ -26,17 +26,17 @@ Dashboard
 
 @section('main-content')
 <div class="row">
-    <div class="col-lg-8 stretched_card">
+    <div class="col-sm-12 col-lg-8 stretched_card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card_title mb-2">Top 5 Documentos por Categoria</h4>
                 <div class="chart_container">
-                    <canvas id="bar_chart" class="mt-4" style="height: 500px;"></canvas>
+                    <canvas id="bar_chart" class="mt-4" style="width: 100%; height: 500px;"></canvas>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-4 stretched_card d-block-mob">
+    <div class="col-sm-12 col-lg-4 stretched_card d-block-mob">
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-icon rt_icon_card mb-4 mt-mob-4 text-center">

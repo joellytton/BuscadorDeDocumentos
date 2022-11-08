@@ -9,15 +9,49 @@
     <li class="breadcrumb-item active"><a>Recomendação</a></li>
 </ol>
 
-<div class="row">
-    <div class="col-lg-12 text-right mb-4">
-        <div class="card">
-            <div class="card-body">
-                <a class="btn btn-primary btn-md" href="{{route('recomendacao.create')}}" role="button">
-                    Nova Recomendação
-                </a>
-            </div>
+<div class="card">
+    <div class="card-body">
+        <div class="text-right">
+            <a class="btn btn-primary btn-md" href="{{route('recomendacao.create')}}" role="button">
+                Nova Recomendação
+            </a>
         </div>
+        <br>
+        <h4>PESQUISA RECOMENDAÇÃO</h4>
+        <hr />
+        <form action="{{ url('/recomendacao') }}" method="get">
+            @csrf
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="wrap">
+                        <label for="id_categoria" class="form-control-label ">Categorias:</label>
+                        <select class="form-control select" name="id_categoria[]" multiple="multiple">
+                            @foreach ($categorias as $categoria)
+                            <option value="{{$categoria->id}}"
+                                {{in_array($categoria->id, (empty(request('id_categoria')) ? [] : request('id_categoria'))) ? 'selected' : ''}}>
+                                {{$categoria->nome}}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="wrap">
+                        <label for="search" class="form-control-label">Buscar:</label>
+                        <input type="text" class="form-control" name="search" value="{{ request('search') }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-sm-12 col-md-12 col-lg-12 text-center mt-4">
+                    <button type="submit" class="btn btn-secondary btn-fixed-w mt-2">
+                        Pesquisar
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -25,20 +59,6 @@
     <div class="col-12 mb-4">
         <div class="card">
             <div class="card-body">
-                <form method="GET" action="{{ route('recomendacao.index') }}" accept-charset="UTF-8"
-                    class="form-inline my-2 my-lg-0 float-right" role="search">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="search" placeholder="Buscar..."
-                            value="{{ request('search') }}">
-                        <span class="input-group-append">
-                            <button class="btn btn-secondary" type="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                </form>
-                <br />
-                <br />
                 <h4 class="card_title">Recomendações</h4>
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -57,9 +77,18 @@
                             @foreach ($recomendacoes as $recomendacao)
                             <tr scope="row">
                                 <td class="text-center">{{$recomendacao->id}}</td>
-                                <td class="text-center">{{$recomendacao->achado}}</td>
-                                <td class="text-center">{{$recomendacao->recomendacao}}</td>
-                                <td class="text-center">{{$recomendacao->base_legal}}</td>
+                                <td class="text-center" data-toggle="popover" data-trigger="hover" title="Achado"
+                                    data-content="{{$recomendacao->achado}}">
+                                    {{mb_strimwidth($recomendacao->achado,0, 80, "...")}}
+                                </td>
+                                <td class="text-center" data-toggle="popover" data-trigger="hover" title="Recomendação"
+                                    data-content="{{$recomendacao->recomendacao}}">
+                                    {{mb_strimwidth($recomendacao->recomendacao,0, 80, "...")}}
+                                </td>
+                                <td class="text-center" data-toggle="popover" data-trigger="hover" title="Base Legal"
+                                    data-content="{{$recomendacao->base_legal}}">
+                                    {{mb_strimwidth($recomendacao->base_legal,0, 80, "...")}}
+                                </td>
                                 <td class="text-center">{{$recomendacao->categorias->implode('nome', ', ')}}</td>
                                 <td class="text-center">
                                     <a href="{{@$recomendacao->links->link}}" target="_black"

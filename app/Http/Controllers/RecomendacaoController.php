@@ -23,7 +23,8 @@ class RecomendacaoController extends Controller
     public function index(Request $request): View
     {
         $recomendacoes = Recomendacao::buscarRecomendacao($request);
-        return view("recomendacao.index", compact('recomendacoes'));
+        $categorias = Categoria::where('status', 'Ativo')->orderBy('nome')->get();
+        return view("recomendacao.index", compact('recomendacoes', 'categorias'));
     }
 
     public function create(): View

@@ -29,13 +29,19 @@ class Recomendacao extends Model
 
     public static function buscarRecomendacao(Request $request): AbstractPaginator
     {
-        $recomendacao = self::with('usuario', 'categorias') ->where('status', 'Ativo');
+        $recomendacao = self::with('usuario', 'categorias')->where('status', 'Ativo');
 
         $recomendacao->where(function ($q) use ($request) {
             $q->orWhere('achado', 'LIKE', "%$request->search%")
                 ->orWhere('recomendacao', 'LIKE', "%$request->search%")
                 ->orWhere('base_legal', 'LIKE', "%$request->search%");
         });
+
+        if (!empty($request->id_categoria)) {
+            $recomendacao->whereHas('categorias', function ($q) use ($request) {
+                $q->whereIn('categoria.id', $request->id_categoria);
+            })->get();
+        }
 
         return $recomendacao->orderBy('id', 'desc')->paginate(10);
     }
