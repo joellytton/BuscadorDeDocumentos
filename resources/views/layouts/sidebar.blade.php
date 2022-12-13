@@ -51,6 +51,12 @@
                                 </a>
                             </li>
 
+                            <li {!! (Request::is('cadastroBasico/esfera*') ? 'class="active"' :"") !!}>
+                                <a href="{{route("cadastroBasico.esfera.index")}}">
+                                    <i class="ti-folder"></i><span>Esferas</span>
+                                </a>
+                            </li>
+
                             <li {!! (Request::is('cadastroBasico/instituicao*') ? 'class="active"' :"") !!}>
                                 <a href="{{route("cadastroBasico.instituicao.index")}}">
                                     <i class="ti-folder"></i><span>Insituição</span>
