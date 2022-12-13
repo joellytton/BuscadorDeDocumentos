@@ -62,11 +62,12 @@ class Documento extends Model
             })->get();
         }
 
-        $documento->where(function ($q) use ($request) {
-            $q->orWhere('numero', 'LIKE', "%$request->pesquisa%")
-                ->orWhere('doe', 'LIKE', "%$request->pesquisa%")
-                ->orWhere('descricao', 'LIKE', "%$request->pesquisa%");
-        });
+
+        if (!empty($request->pesquisa)) {
+            $documento->whereRaw("MATCH(descricao) AGAINST('$request->pesquisa')");
+            $documento->orWhere('numero', 'LIKE', "%$request->pesquisa%");
+            $documento->orWhere('doe', 'LIKE', "%$request->pesquisa%");
+        }
 
         return $documento->orderBy('id', 'desc')->paginate(10);
     }

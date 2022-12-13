@@ -34,6 +34,7 @@ class DocumentoController extends Controller
         $situacoes = Situacao::where('status', 'Ativo')->orderBy('nome')->get();
 
         $documentos = Documento::buscarDocumento($request);
+         
         return view('documento.index', compact(
             'categorias',
             'esferas',

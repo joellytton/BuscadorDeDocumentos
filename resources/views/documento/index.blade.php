@@ -170,8 +170,7 @@
                                     {{$documento->instituicao->nome}}
                                 </td>
                                 <td class="text-center {{$documento->situacao->nome == 'Inativo' ? 'inativo' : ''}}"
-                                    data-toggle="popover" data-trigger="hover" title="Descrição"
-                                    data-content="{{$documento->descricao}}">
+                                    data-toggle="popover" title="Descrição" data-content="{{$documento->descricao}}">
                                     {{mb_strimwidth($documento->descricao, 0, 80, "...")}}
                                 </td>
                                 <td class="text-center">
