@@ -77,15 +77,15 @@
                             @foreach ($recomendacoes as $recomendacao)
                             <tr scope="row">
                                 <td class="text-center">{{$recomendacao->id}}</td>
-                                <td class="text-center" data-toggle="popover" data-trigger="hover" title="Achado"
+                                <td class="text-center" data-toggle="popover" title="Achado"
                                     data-content="{{$recomendacao->achado}}">
                                     {{mb_strimwidth($recomendacao->achado,0, 80, "...")}}
                                 </td>
-                                <td class="text-center" data-toggle="popover" data-trigger="hover" title="Recomendação"
+                                <td class="text-center" data-toggle="popover" title="Recomendação"
                                     data-content="{{$recomendacao->recomendacao}}">
                                     {{mb_strimwidth($recomendacao->recomendacao,0, 80, "...")}}
                                 </td>
-                                <td class="text-center" data-toggle="popover" data-trigger="hover" title="Base Legal"
+                                <td class="text-center" data-toggle="popover" title="Base Legal"
                                     data-content="{{$recomendacao->base_legal}}">
                                     {{mb_strimwidth($recomendacao->base_legal,0, 80, "...")}}
                                 </td>
