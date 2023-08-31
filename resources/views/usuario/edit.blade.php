@@ -94,7 +94,30 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
+                        <div class="col-sm-6 col-md-8 col-lg-8 mt-4">
+                            <div class="wrap">
+                                <label for="grupo_id" class="form-control-label">Grupos:
+                                    <span class="text-danger" style="font-size: 14px;">*</span>
+                                </label>
+                                <select class="form-control select" name="grupo_id[]" multiple="multiple">
+                                    @foreach ($grupos as $grupo)
+                                    <option value="{{$grupo->id}}" {{in_array($grupo->id, (empty(old('grupo_id')) ?
+                                        (empty($usuario) ? [] : array_column(@$usuario->grupos->toArray(), 'id')) 
+                                         : old('grupo_id'))) ? 
+                                        'selected' : ''}}>
+                                        {{$grupo->nome}}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('telefone'))
+                                <h6 class="heading text-danger">{{$errors->first('telefone')}}</h6>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 mt-4">
                             <div class="wrap">
                                 <label for="telefone" class="form-control-label">Telefone:</label>
                                 <input type="text" class="form-control focus" name="telefone" placeholder="Telefone"
@@ -105,7 +128,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-4 col-lg-4 mt-4">
+                        <div class="col-sm-6 col-md-6 col-lg-6 mt-4">
                             <div class="wrap">
                                 <label for="data_expirar" class="form-control-label">Expirar:</label>
                                 <input type="date" class="form-control focus" name="data_expirar" placeholder="Expirar"

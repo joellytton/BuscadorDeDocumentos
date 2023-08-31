@@ -57,6 +57,12 @@
                                 </a>
                             </li>
 
+                            <li {!! (Request::is('cadastroBasico/grupo*') ? 'class="active"' :"") !!}>
+                                <a href="{{route("cadastroBasico.grupo.index")}}">
+                                    <i class="ti-folder"></i><span>Grupos</span>
+                                </a>
+                            </li>
+
                             <li {!! (Request::is('cadastroBasico/instituicao*') ? 'class="active"' :"") !!}>
                                 <a href="{{route("cadastroBasico.instituicao.index")}}">
                                     <i class="ti-folder"></i><span>Insituição</span>

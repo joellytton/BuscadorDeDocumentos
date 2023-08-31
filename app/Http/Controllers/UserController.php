@@ -6,7 +6,10 @@ use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use App\Models\Grupo;
+use App\Models\GrupoUsuario;
 use App\Models\Perfil;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,7 +24,6 @@ class UserController extends Controller
     {
         $perPage = 10;
         $keyword =  empty($request->search) ? '' : $request->search;
-
         $usuarios = User::buscaPorNome($perPage, $keyword);
         return view('usuario.index', compact('usuarios'));
     }
@@ -53,7 +55,9 @@ class UserController extends Controller
     {
         $usuario = User::findOrFail($id);
         $perfis = Perfil::where('status', 'Ativo')->orderBy('nome')->get();
-        return view('usuario.edit', compact('usuario', 'perfis'));
+        $usuarioGrupos = GrupoUsuario::where('id_usuario', Auth::id())->pluck('id_grupo');
+        $grupos = Grupo::whereIn('id', $usuarioGrupos->toArray())->get();
+        return view('usuario.edit', compact('usuario', 'perfis', 'grupos'));
     }
 
     public function update(UserRequest $request, $id)

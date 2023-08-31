@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use App\Models\TipoDocumento;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\AbstractPaginator;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Documento extends Model
 {
@@ -69,6 +71,14 @@ class Documento extends Model
             $documento->orWhere('doe', 'LIKE', "%$request->pesquisa%");
         }
 
+        $grupoUsuarios = DB::table('grupo_usuario')->where('id_usuario', Auth::id())->get();
+
+        $grupoUsuarios = str_split($grupoUsuarios->implode('id_grupo'));
+
+        $documento->whereHas('grupos', function ($q) use ($grupoUsuarios) {
+            $q->whereIn('grupo.id', $grupoUsuarios);
+        })->get();
+
         return $documento->orderBy('id', 'desc')->paginate(10);
     }
 
@@ -79,6 +89,16 @@ class Documento extends Model
             'categoria_documento',
             'id_documento',
             'id_categoria'
+        );
+    }
+
+    public function grupos()
+    {
+        return $this->belongsToMany(
+            Grupo::class,
+            'documento_grupo',
+            'id_documento',
+            'id_grupo'
         );
     }
 

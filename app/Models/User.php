@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\GrupoUsuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Pagination\AbstractPaginator;
@@ -54,7 +55,7 @@ class User extends Authenticatable
 
     public static function buscaPorNome(int $perPage, string $keyword): AbstractPaginator
     {
-        return self::with('perfil')
+        return self::with('perfil', 'grupos')
             ->Where('status', 'Ativo')
             ->Where('nome', 'LIKE', "%$keyword%")
             ->Where('login', 'LIKE', "%$keyword%")
@@ -65,5 +66,9 @@ class User extends Authenticatable
     public function perfil()
     {
         return $this->belongsTo(Perfil::class, 'id_perfil');
+    }
+
+    public function grupos() {
+        return $this->belongsToMany(Grupo::class, 'grupo_usuario', 'id_usuario', 'id_grupo');
     }
 }
