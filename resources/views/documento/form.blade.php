@@ -86,6 +86,31 @@
     </div>
 </div>
 
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mt-4">
+        <div class="wrap">
+            <label for="grupo_id" class="form-control-label">Grupos:
+                <span class="text-danger" style="font-size: 14px;">*</span>
+            </label>
+            <select name="grupo_id[]" class="form-control select" multiple="multiple">
+                @foreach ($grupos as $grupo)
+                <option value="{{$grupo->id}}" {{in_array($grupo->id, (empty(old('grupo_id')) ?
+                    (empty($documentos) ? [] : array_column(@$documentos->grupos->toArray(), 'id')) 
+                     : old('grupo_id'))) ? 
+                    'selected' : ''}}>
+                    {{$grupo->nome}}
+                </option>
+                @endforeach
+            </select>
+
+            @if ($errors->has('grupo_id'))
+            <h6 class="heading text-danger">{{$errors->first('grupo_id')}}</h6>
+            @endif
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-sm-12 col-md-3 col-lg-3 mt-4">
         <div class="wrap">

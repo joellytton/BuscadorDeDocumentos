@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Grupo;
 use Illuminate\Http\Request;
 use App\Models\RecomendacaoLink;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,6 +46,14 @@ class Recomendacao extends Model
             })->get();
         }
 
+        $grupoUsuarios = DB::table('grupo_usuario')->where('id_usuario', Auth::id())->get();
+
+        $grupoUsuarios = str_split($grupoUsuarios->implode('id_grupo'));
+
+        $recomendacao->whereHas('grupos', function ($q) use ($grupoUsuarios) {
+            $q->whereIn('grupo.id', $grupoUsuarios);
+        })->get();
+
         return $recomendacao->orderBy('id', 'desc')->paginate(10);
     }
 
@@ -63,6 +74,16 @@ class Recomendacao extends Model
             'categoria_recomendacao',
             'id_recomendacao',
             'id_categoria'
+        );
+    }
+
+    public function grupos()
+    {
+        return $this->belongsToMany(
+            Grupo::class,
+            'grupo_recomendacao',
+            'id_recomendacao',
+            'id_grupo'
         );
     }
 }

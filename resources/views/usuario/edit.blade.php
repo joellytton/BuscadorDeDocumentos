@@ -109,8 +109,8 @@
                                     </option>
                                     @endforeach
                                 </select>
-                                @if ($errors->has('telefone'))
-                                <h6 class="heading text-danger">{{$errors->first('telefone')}}</h6>
+                                @if ($errors->has('grupo_id'))
+                                <h6 class="heading text-danger">{{$errors->first('grupo_id')}}</h6>
                                 @endif
                             </div>
                         </div>

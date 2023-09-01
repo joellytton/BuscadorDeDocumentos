@@ -31,7 +31,8 @@ class UserController extends Controller
     public function create(): View
     {
         $perfis = Perfil::where('status', 'Ativo')->orderBy('nome')->get();
-        return view('usuario.create', compact('perfis'));
+        $grupos = Grupo::where('status', 'Ativo')->get();
+        return view('usuario.create', compact('perfis', 'grupos'));
     }
 
     public function store(UserRequest $request): Response
@@ -46,6 +47,8 @@ class UserController extends Controller
                 ->with('error', "Falha ao cadastrar um categoria.");
         }
 
+        $usuario->grupos()->sync($request->grupo_id);
+
         DB::commit();
         return redirect()->route('cadastroBasico.usuario.index')
             ->with('success', "Usuário cadastrado com sucesso.");
@@ -55,8 +58,7 @@ class UserController extends Controller
     {
         $usuario = User::findOrFail($id);
         $perfis = Perfil::where('status', 'Ativo')->orderBy('nome')->get();
-        $usuarioGrupos = GrupoUsuario::where('id_usuario', Auth::id())->pluck('id_grupo');
-        $grupos = Grupo::whereIn('id', $usuarioGrupos->toArray())->get();
+        $grupos = Grupo::where('status', 'Ativo')->get();
         return view('usuario.edit', compact('usuario', 'perfis', 'grupos'));
     }
 
@@ -71,6 +73,8 @@ class UserController extends Controller
             return redirect()->route('cadastroBasico.usuario.index')
                 ->with('error', "Falha ao alterar um usuário.");
         }
+
+        $usuario->grupos()->sync($request->grupo_id);
 
         DB::commit();
         return redirect()->route('cadastroBasico.usuario.index')

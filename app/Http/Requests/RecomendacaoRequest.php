@@ -24,6 +24,7 @@ class RecomendacaoRequest extends FormRequest
         return [
             'achado' => ['required'],
             'recomendacao' => ['required'],
+            'grupo_id' => ['required'],
             'base_legal' => ['required'],
         ];
     }
@@ -33,6 +34,7 @@ class RecomendacaoRequest extends FormRequest
         return [
             'achado.required' => 'Os achados são obrigatório.',
             'recomendacao.required' => 'A recomendação é obrigatória.',
+            'grupo_id.required' => 'O grupo é obrigatório.',
             'base_legal.required' => 'A base legal é obrigatória.',
         ];
     }

@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use File;
+use App\Models\Grupo;
 use App\Models\Esfera;
 use App\Models\Situacao;
 use App\Models\Categoria;
 use App\Models\Documento;
 use Illuminate\View\View;
 use App\Models\Instituicao;
+use App\Models\GrupoUsuario;
 use Illuminate\Http\Request;
 use App\Models\DocumentoLink;
 use App\Models\TipoDocumento;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\DocumentoRequest;
 use Symfony\Component\HttpFoundation\Response;
-use File;
 
 class DocumentoController extends Controller
 {
@@ -34,7 +37,7 @@ class DocumentoController extends Controller
         $situacoes = Situacao::where('status', 'Ativo')->orderBy('nome')->get();
 
         $documentos = Documento::buscarDocumento($request);
-         
+
         return view('documento.index', compact(
             'categorias',
             'esferas',
@@ -52,12 +55,15 @@ class DocumentoController extends Controller
         $instituicoes = Instituicao::where('status', 'Ativo')->get();
         $situacoes = Situacao::where('status', 'Ativo')->get();
         $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
+        $usuarioGrupos = GrupoUsuario::where('id_usuario', Auth::id())->pluck('id_grupo');
+        $grupos = Grupo::where('status', 'Ativo')->whereIn('id', $usuarioGrupos->toArray())->get();
         return view('documento.create', compact(
             'categorias',
             'esferas',
             'instituicoes',
             'situacoes',
-            'tipoDocumentos'
+            'tipoDocumentos',
+            'grupos'
         ));
     }
 
@@ -67,14 +73,15 @@ class DocumentoController extends Controller
 
         $documento = Documento::create($request->all());
 
-        $filePath = "";
-        if ($request->tipo_documento == 'fisico') {
-            $fileName = time() . '.' . $request->upload->extension();
-            $request->upload->move(public_path('uploads'), $fileName);
-            $filePath = "uploads/" . $fileName;
+        if ($request->upload != null) {
+            $filePath = "";
+            if ($request->tipo_documento == 'fisico') {
+                $fileName = time() . '.' . $request->upload->extension();
+                $request->upload->move(public_path('uploads'), $fileName);
+                $filePath = "uploads/" . $fileName;
+            }
+            $request->merge(['link' => $request->tipo_documento == 'fisico' ? $filePath : $request->link]);
         }
-
-        $request->merge(['link' => $request->tipo_documento == 'fisico' ? $filePath : $request->link]);
 
         if (!$documento || !$documento->links()->create($request->all())) {
             DB::rollBack();
@@ -82,6 +89,7 @@ class DocumentoController extends Controller
         }
 
         $documento->categorias()->sync($request->categoria_id);
+        $documento->grupos()->sync($request->grupo_id);
 
         DB::commit();
         return redirect()->route('documento.index')->with('success', "Documento cadastrada com sucesso.");
@@ -95,14 +103,16 @@ class DocumentoController extends Controller
         $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->orderBy('nome')->get();
         $instituicoes = Instituicao::where('status', 'Ativo')->orderBy('nome')->get();
         $situacoes = Situacao::where('status', 'Ativo')->orderBy('nome')->get();
-
+        $usuarioGrupos = GrupoUsuario::where('id_usuario', Auth::id())->pluck('id_grupo');
+        $grupos = Grupo::where('status', 'Ativo')->whereIn('id', $usuarioGrupos->toArray())->get();
         return view('documento.edit', compact(
             'categorias',
             'documentos',
             'esferas',
             'instituicoes',
             'situacoes',
-            'tipoDocumentos'
+            'tipoDocumentos',
+            'grupos'
         ));
     }
 
@@ -117,6 +127,8 @@ class DocumentoController extends Controller
         );
 
         $documento->categorias()->sync($request->categoria_id);
+
+        $documento->grupos()->sync($request->grupo_id);
 
         if (File::exists(public_path($link->link)) && !empty($request->upload)) {
             File::delete(public_path($link->link));

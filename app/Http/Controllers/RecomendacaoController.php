@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Grupo;
 use App\Models\Categoria;
 use Illuminate\View\View;
+use App\Models\GrupoUsuario;
 use App\Models\Recomendacao;
 use Illuminate\Http\Request;
 use App\Models\RecomendacaoLink;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\RecomendacaoRequest;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -30,7 +33,9 @@ class RecomendacaoController extends Controller
     public function create(): View
     {
         $categorias = Categoria::where('status', 'Ativo')->orderBy('nome')->get();
-        return view("recomendacao.create", compact('categorias'));
+        $usuarioGrupos = GrupoUsuario::where('id_usuario', Auth::id())->pluck('id_grupo');
+        $grupos = Grupo::where('status', 'Ativo')->whereIn('id', $usuarioGrupos->toArray())->get();
+        return view("recomendacao.create", compact('categorias', 'grupos'));
     }
 
     public function store(RecomendacaoRequest $request): Response
@@ -44,6 +49,7 @@ class RecomendacaoController extends Controller
             }
 
             $recomendacao->categorias()->sync($request->categoria_id);
+            $recomendacao->grupos()->sync($request->grupo_id);
 
             DB::commit();
             return redirect()->route('recomendacao.index')->with('success', 'Recomendação cadastrada com sucesso!');
@@ -57,7 +63,9 @@ class RecomendacaoController extends Controller
     {
         $recomendacao = Recomendacao::find($id);
         $categorias = Categoria::where('status', 'Ativo')->orderBy('nome')->get();
-        return view('recomendacao.edit', compact('recomendacao', 'categorias'));
+        $usuarioGrupos = GrupoUsuario::where('id_usuario', Auth::id())->pluck('id_grupo');
+        $grupos = Grupo::where('status', 'Ativo')->whereIn('id', $usuarioGrupos->toArray())->get();
+        return view('recomendacao.edit', compact('recomendacao', 'categorias', 'grupos'));
     }
 
     public function update(RecomendacaoRequest $request, $id): Response
@@ -76,6 +84,7 @@ class RecomendacaoController extends Controller
             }
 
             $recomendacao->categorias()->sync($request->categoria_id);
+            $recomendacao->grupos()->sync($request->grupo_id);
            
             DB::commit();
             return redirect()->route('recomendacao.index')->with('success', "Recomendação alterada com sucesso.");
