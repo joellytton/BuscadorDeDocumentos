@@ -35,8 +35,18 @@ class Documento extends Model
 
     public static function buscarDocumento(Request $request): AbstractPaginator
     {
-        $documento = self::with('esfera', 'instituicao', 'links', 'situacao', 'tipoDocumento')
+        $documento = self::join('documento_grupo', 'documento.id', '=', 'documento_grupo.id_documento')
+            ->with('esfera', 'instituicao', 'links', 'situacao', 'tipoDocumento')
             ->where('status', 'Ativo');
+
+        $grupoUsuarios = DB::table('grupo_usuario')->where('id_usuario', Auth::id())->get();
+
+        $grupoUsuarios = str_split($grupoUsuarios->implode('id_grupo'));
+
+        $documento->whereHas('grupos', function ($q) use ($grupoUsuarios) {
+            $q->whereIn('grupo.id', $grupoUsuarios);
+        })->get();
+
 
         if ($request->id_tipo_documento > 0) {
             $documento->where('id_tipo_documento', $request->id_tipo_documento);
@@ -71,13 +81,6 @@ class Documento extends Model
             $documento->orWhere('doe', 'LIKE', "%$request->pesquisa%");
         }
 
-        $grupoUsuarios = DB::table('grupo_usuario')->where('id_usuario', Auth::id())->get();
-
-        $grupoUsuarios = str_split($grupoUsuarios->implode('id_grupo'));
-
-        $documento->whereHas('grupos', function ($q) use ($grupoUsuarios) {
-            $q->whereIn('grupo.id', $grupoUsuarios);
-        })->get();
 
         return $documento->orderBy('id', 'desc')->paginate(10);
     }
