@@ -34,6 +34,15 @@ class Recomendacao extends Model
     {
         $recomendacao = self::with('usuario', 'categorias')->where('status', 'Ativo');
 
+        $grupoUsuarios = DB::table('grupo_usuario')->where('id_usuario', Auth::id())->get();
+
+        $grupoUsuarios = str_split($grupoUsuarios->implode('id_grupo'));
+
+        $recomendacao->whereHas('grupos', function ($q) use ($grupoUsuarios) {
+            $q->whereIn('grupo.id', $grupoUsuarios);
+        })->get();
+
+
         $recomendacao->where(function ($q) use ($request) {
             $q->orWhere('achado', 'LIKE', "%$request->search%")
                 ->orWhere('recomendacao', 'LIKE', "%$request->search%")
@@ -45,14 +54,6 @@ class Recomendacao extends Model
                 $q->whereIn('categoria.id', $request->id_categoria);
             })->get();
         }
-
-        $grupoUsuarios = DB::table('grupo_usuario')->where('id_usuario', Auth::id())->get();
-
-        $grupoUsuarios = str_split($grupoUsuarios->implode('id_grupo'));
-
-        $recomendacao->whereHas('grupos', function ($q) use ($grupoUsuarios) {
-            $q->whereIn('grupo.id', $grupoUsuarios);
-        })->get();
 
         return $recomendacao->orderBy('id', 'desc')->paginate(10);
     }
