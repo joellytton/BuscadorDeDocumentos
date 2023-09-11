@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -29,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/empresas/buscar-por/nome', CategoriaPorNome::class);
 
     Route::resource('/recomendacao', RecomendacaoController::class);
+    Route::resource('/auditoria', AuditoriaController::class);
 });
 
 
