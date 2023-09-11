@@ -9,7 +9,6 @@
     <li class="breadcrumb-item active"><a>Auditoria</a></li>
 </ol>
 
-
 <div class="card">
     <div class="card-body">
         <div class="text-right">
@@ -25,21 +24,19 @@
             <div class="row">
                 <div class="col-sm-12 col-md-3 col-lg-3">
                     <div class="wrap">
-                        <label for="data" class="form-control-label">Data De Inicio:</label>
-                        <input type="date" class="form-control" name="data" value="{{ request('data') }}">
+                        <label for="data_inicio" class="form-control-label">Data De Inicio:</label>
+                        <input type="date" class="form-control" name="data_inicio" value="{{ request('data') }}">
                     </div>
                 </div>
 
                 <div class="col-sm-12 col-md-3 col-lg-3">
                     <div class="wrap">
-                        <label for="data" class="form-control-label">Data Fim:</label>
-                        <input type="date" class="form-control" name="data" value="{{ request('data') }}">
+                        <label for="data_fim" class="form-control-label">Data Fim:</label>
+                        <input type="date" class="form-control" name="data_fim" value="{{ request('data') }}">
                     </div>
                 </div>
-            </div>
 
-            <div class="row mt-2">
-                <div class="col-sm-12 col-md-12 col-lg-12 text-center mt-4">
+                <div class="col-sm-12 col-md-3 col-lg-3 mt-4">
                     <button type="submit" class="btn btn-secondary btn-fixed-w mt-2">
                         Pesquisar
                     </button>

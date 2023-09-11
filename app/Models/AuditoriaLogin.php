@@ -18,7 +18,9 @@ class AuditoriaLogin extends Model
 
     public static function buscarAuditoria(Request $request): AbstractPaginator
     {
-        $auditoria = self::with('usuario')->orderBy('id', 'desc')->paginate(10);
+        $auditoria = self::with('usuario')
+        ->whereRaw("DATE_FORMAT(data, '%Y-%m-%d') BETWEEN ? AND ?", [$request->data_inicio, $request->data_fim])
+        ->orderBy('id', 'desc')->paginate(10);
 
         return $auditoria;
     }
