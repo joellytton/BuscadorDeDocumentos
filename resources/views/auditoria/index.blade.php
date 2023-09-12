@@ -11,12 +11,6 @@
 
 <div class="card">
     <div class="card-body">
-        <div class="text-right">
-            <a class="btn btn-primary btn-md" href="{{route('documento.create')}}" role="button">
-                Novo Documento
-            </a>
-        </div>
-        <br>
         <h4>PESQUISA AUDITORIA</h4>
         <hr />
         <form action="{{ url('/auditoria') }}" method="get">
@@ -24,7 +18,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-3 col-lg-3">
                     <div class="wrap">
-                        <label for="data_inicio" class="form-control-label">Data De Inicio:</label>
+                        <label for="data_inicio" class="form-control-label">Data Inicio:</label>
                         <input type="date" class="form-control" name="data_inicio" value="{{ request('data') }}">
                     </div>
                 </div>

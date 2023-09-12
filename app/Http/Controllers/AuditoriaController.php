@@ -8,6 +8,11 @@ use App\Models\AuditoriaLogin;
 
 class AuditoriaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('verificar.permissao:1');
+    }
+    
     public function index(Request $request): View
     {
         $auditorias = AuditoriaLogin::buscarAuditoria($request);

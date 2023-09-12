@@ -38,13 +38,14 @@
                         </a>
                     </li>
 
-
+                    @if (verificarPermissao([1]))
                     <li {!! (Request::is('auditoria*') ? 'class="active"' : "" ) !!}>
                         <a href="{{route("auditoria.index")}}">
                             <i class="ti-folder"></i>
                             <span>Auditoria</span>
                         </a>
                     </li>
+                    @endif
 
                     @if (verificarPermissao([1]))
                     <li {!! (Request::is('cadastroBasico*') ? 'class="active"' : "" ) !!}>
