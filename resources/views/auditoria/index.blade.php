@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('page-title') Lista de Categorias @endsection
+@section('page-title') Lista de Auditoria @endsection
 
 @section('main-content')
 
@@ -19,14 +19,14 @@
                 <div class="col-sm-12 col-md-3 col-lg-3">
                     <div class="wrap">
                         <label for="data_inicio" class="form-control-label">Data Inicio:</label>
-                        <input type="date" class="form-control" name="data_inicio" value="{{ request('data') }}">
+                        <input type="date" class="form-control" name="data_inicio" value="{{ request('data_inicio') }}">
                     </div>
                 </div>
 
                 <div class="col-sm-12 col-md-3 col-lg-3">
                     <div class="wrap">
                         <label for="data_fim" class="form-control-label">Data Fim:</label>
-                        <input type="date" class="form-control" name="data_fim" value="{{ request('data') }}">
+                        <input type="date" class="form-control" name="data_fim" value="{{ request('data_fim') }}">
                     </div>
                 </div>
 
@@ -50,22 +50,24 @@
                         <thead class="bg-light text-capitalize">
                             <tr>
                                 <th class="text-center">NOME</th>
-                                <th class="text-center">IP</th>
-                                <th class="text-center">DATA</th>
+                                <th class="text-center">Quantidade</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($auditorias as $auditoria)
                             <tr>
-                                <td class="text-center">{{$auditoria->usuario->nome}}</td>
-                                <td class="text-center">{{$auditoria->IP}}</td>
-                                <td class="text-center">{{\Carbon\Carbon::parse($auditoria->data)->format('d/m/Y
-                                    H:i:s')}}</td>
+                                <td class="text-center">{{$auditoria->get(0)->usuario->nome}}</td>
+                                <td class="text-center">{{$auditoria->get(0)}}</td>
+                                {{-- <td class="text-center">
+                                    {{\Carbon\Carbon::parse($auditoria->data)->format('d/m/Y H:i:s')}}
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{$auditorias->appends(['search' => Request::get('search')])->links() }}
+                    {{$auditorias->appends([
+                    'data_inicio' => Request::get('data_inicio'),
+                    'data_fim' => Request::get('data_fim')])->links() }}
                 </div>
             </div>
         </div>
