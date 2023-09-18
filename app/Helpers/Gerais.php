@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\AuditoriaLogin;
+use Illuminate\Http\Request;
+
 if (!function_exists('data_br_para_iso')) {
     function data_br_para_iso($data)
     {
@@ -22,5 +25,16 @@ if (!function_exists('verificarPermissao')) {
             return true;
         }
         return in_array(Auth::user()->id_perfil, $arrayPerfil);
+    }
+}
+
+if (!function_exists('retornarRegistrosAuditoriaPorUsuario')) {
+    function retornarRegistrosAuditoriaPorUsuario(int $idUsuario, String $dataInicio, String $dataFim)
+    {
+        $registros = AuditoriaLogin::buscarAuditoriaRegistros($dataInicio, $dataFim);
+        $registros = $registros->filter(function ($registros) use ($idUsuario) {
+            return $registros->id_usuario == $idUsuario;
+        });
+        return $registros->sortByDesc('data');
     }
 }

@@ -40,7 +40,7 @@
     </div>
 </div>
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-12 mb-4">
         <div class="card">
             <div class="card-body">
@@ -56,11 +56,13 @@
                         <tbody>
                             @foreach ($auditorias as $auditoria)
                             <tr>
-                                <td class="text-center">{{$auditoria->get(0)->usuario->nome}}</td>
-                                <td class="text-center">{{$auditoria->get(0)}}</td>
-                                {{-- <td class="text-center">
-                                    {{\Carbon\Carbon::parse($auditoria->data)->format('d/m/Y H:i:s')}}
-                                </td> --}}
+                                <td class="text-center">{{$auditoria->usuario->nome}}</td>
+                                <td class="text-center">0</td>
+                                {{
+                                $registros = $registros->filter(function ($registros) use ($auditoria) {
+                                return $registros->id_usuario == $auditoria->id_usuario;
+                                });
+                                }}
                             </tr>
                             @endforeach
                         </tbody>
@@ -72,5 +74,67 @@
             </div>
         </div>
     </div>
+</div> --}}
+
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card_title">Lista de acesso ao sistema</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Quantidade</th>
+                            <th>Detalhes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach ($auditorias as $auditoria)
+                        @php
+                        //esse trecho aqui eu preciso melhorar em ver der passa o id do usuario
+                        //eu preciso passar a collection para evitar varias consultas no banco
+                        $registros = retornarRegistrosAuditoriaPorUsuario($auditoria->id_usuario,
+                        Request::get('data_inicio'), Request::get('data_fim'));
+                        @endphp
+                        <tr data-toggle="collapse" data-target="#row{{$auditoria->id_usuario}}"
+                            class="accordion-toggle">
+                            <td class="text-center">{{$auditoria->usuario->nome}}</td>
+                            <td class="text-center">{{$registros->count()}}</td>
+                            <td><button class="btn btn-primary btn-sm">Ver detalhes</button></td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div class="collapse" id="row{{$auditoria->id_usuario}}">
+                                    <table class="table table-bordered">
+                                        <th>Usuario</th>
+                                        <th>IP</th>
+                                        <th class="text-center">Data</th>
+                                        <tbody>
+                                            @foreach ($registros as $registro)
+                                            <tr>
+                                                <td>{{$registro->usuario->nome}}</td>
+                                                <td>{{$registro->IP}}</td>
+                                                <td class="text-center">
+                                                    {{\Carbon\Carbon::parse($registro->data)->format('d/m/Y H:i:s')}}
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
 @endsection

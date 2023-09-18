@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\AbstractPaginator;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class AuditoriaLogin extends Model
 {
@@ -20,13 +18,19 @@ class AuditoriaLogin extends Model
     public static function buscarAuditoria(Request $request): AbstractPaginator
     {
         $auditoria = self::with('usuario')
+            ->select('id_usuario')
             ->whereRaw("DATE_FORMAT(data, '%Y-%m-%d') BETWEEN ? AND ?", [$request->data_inicio, $request->data_fim])
-            ->orderBy('id', 'desc');
+            ->groupBy('id_usuario')
+            ->paginate(10);
 
-        $auditoria = $auditoria->groupBy('id_usuario')->map(function ($grupo) {
-            return $grupo->sortBy('data');
-        });
+        return $auditoria;
+    }
 
+    public static function buscarAuditoriaRegistros(String $dataInicio, String $dataFim): Collection
+    {
+        $auditoria = self::with('usuario')
+            ->whereRaw("DATE_FORMAT(data, '%Y-%m-%d') BETWEEN ? AND ?", [$dataInicio, $dataFim])
+            ->get();
 
         return $auditoria;
     }
