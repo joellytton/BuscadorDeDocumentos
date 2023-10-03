@@ -96,7 +96,7 @@
             <select name="grupo_id[]" class="form-control select" multiple="multiple">
                 @foreach ($grupos as $grupo)
                 <option value="{{$grupo->id}}" {{in_array($grupo->id, (empty(old('grupo_id')) ?
-                    (empty($documentos) ? [] : array_column(@$documentos->grupos->toArray(), 'id')) 
+                    (empty($documentos) ? ['1'] : array_column(@$documentos->grupos->toArray(), 'id')) 
                      : old('grupo_id'))) ? 
                     'selected' : ''}}>
                     {{$grupo->nome}}
