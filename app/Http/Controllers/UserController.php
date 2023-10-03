@@ -31,7 +31,7 @@ class UserController extends Controller
     public function create(): View
     {
         $perfis = Perfil::where('status', 'Ativo')->orderBy('nome')->get();
-        $grupos = Grupo::where('status', 'Ativo')->get();
+        $grupos = Grupo::where('status', 'Ativo')->orderBy('nome')->get();
         return view('usuario.create', compact('perfis', 'grupos'));
     }
 
@@ -58,7 +58,7 @@ class UserController extends Controller
     {
         $usuario = User::findOrFail($id);
         $perfis = Perfil::where('status', 'Ativo')->orderBy('nome')->get();
-        $grupos = Grupo::where('status', 'Ativo')->get();
+        $grupos = Grupo::where('status', 'Ativo')->orderBy('nome')->get();
         return view('usuario.edit', compact('usuario', 'perfis', 'grupos'));
     }
 

@@ -51,12 +51,12 @@ class DocumentoController extends Controller
     public function create(): View
     {
         $categorias = Categoria::where('status', 'Ativo')->orderBy('nome')->get();
-        $esferas = Esfera::where('status', 'Ativo')->get();
-        $instituicoes = Instituicao::where('status', 'Ativo')->get();
-        $situacoes = Situacao::where('status', 'Ativo')->get();
-        $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->get();
+        $esferas = Esfera::where('status', 'Ativo')->orderBy('nome')->get();
+        $instituicoes = Instituicao::where('status', 'Ativo')->orderBy('nome')->get();
+        $situacoes = Situacao::where('status', 'Ativo')->orderBy('nome')->get();
+        $tipoDocumentos = TipoDocumento::where('status', 'Ativo')->orderBy('nome')->get();
         $usuarioGrupos = GrupoUsuario::where('id_usuario', Auth::id())->pluck('id_grupo');
-        $grupos = Grupo::where('status', 'Ativo')->whereIn('id', $usuarioGrupos->toArray())->get();
+        $grupos = Grupo::where('status', 'Ativo')->whereIn('id', $usuarioGrupos->toArray())->orderBy('nome')->get();
         return view('documento.create', compact(
             'categorias',
             'esferas',
@@ -104,7 +104,7 @@ class DocumentoController extends Controller
         $instituicoes = Instituicao::where('status', 'Ativo')->orderBy('nome')->get();
         $situacoes = Situacao::where('status', 'Ativo')->orderBy('nome')->get();
         $usuarioGrupos = GrupoUsuario::where('id_usuario', Auth::id())->pluck('id_grupo');
-        $grupos = Grupo::where('status', 'Ativo')->whereIn('id', $usuarioGrupos->toArray())->get();
+        $grupos = Grupo::where('status', 'Ativo')->whereIn('id', $usuarioGrupos->toArray())->orderBy('nome')->get();
         return view('documento.edit', compact(
             'categorias',
             'documentos',

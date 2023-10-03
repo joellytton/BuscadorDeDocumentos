@@ -34,7 +34,7 @@ class RecomendacaoController extends Controller
     {
         $categorias = Categoria::where('status', 'Ativo')->orderBy('nome')->get();
         $usuarioGrupos = GrupoUsuario::where('id_usuario', Auth::id())->pluck('id_grupo');
-        $grupos = Grupo::where('status', 'Ativo')->whereIn('id', $usuarioGrupos->toArray())->get();
+        $grupos = Grupo::where('status', 'Ativo')->whereIn('id', $usuarioGrupos->toArray())->orderBy('nome')->get();
         return view("recomendacao.create", compact('categorias', 'grupos'));
     }
 
@@ -64,7 +64,7 @@ class RecomendacaoController extends Controller
         $recomendacao = Recomendacao::find($id);
         $categorias = Categoria::where('status', 'Ativo')->orderBy('nome')->get();
         $usuarioGrupos = GrupoUsuario::where('id_usuario', Auth::id())->pluck('id_grupo');
-        $grupos = Grupo::where('status', 'Ativo')->whereIn('id', $usuarioGrupos->toArray())->get();
+        $grupos = Grupo::where('status', 'Ativo')->whereIn('id', $usuarioGrupos->toArray())->orderBy('nome')->get();
         return view('recomendacao.edit', compact('recomendacao', 'categorias', 'grupos'));
     }
 
